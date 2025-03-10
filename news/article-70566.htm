@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xml:lang="zh-CN" lang="zh-CN">
+
+<head>
+        <link rel="canonical" href="https://hongkongvpn.github.io/news/article-70566.htm" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>springboot全局时间格式化</title>
+        <meta name="description" content="前言 这边一直用的返回参数加 @JsonFormat 注解的方式对日期进行格式化，但偶尔会出现忘记格式化（忘记添加注解的问题），遂在此添加全局配置，顺带做个笔记 方法1：项目配置 这种方式只对 Dat" />
+        <link rel="icon" href="/assets/website/img/vlessnode/favicon.ico" type="image/x-icon"/>
+
+    <meta name="author" content="香港VPN 机场订阅节点官网">
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://hongkongvpn.github.io/news/article-70566.htm" />
+    <meta property="og:site_name" content="香港VPN 机场订阅节点官网" />
+    <meta property="og:title" content="springboot全局时间格式化" />
+    <meta property="og:image" content="https://hongkongvpn.github.io/uploads/20240826/fb7bcec0c034fe01b33aa6430009136e.webp" />
+        <meta property="og:release_date" content="2025-03-09T09:47:15" />
+    <meta property="og:updated_time" content="2025-03-09T09:47:15" />
+        <meta property="og:description" content="前言 这边一直用的返回参数加 @JsonFormat 注解的方式对日期进行格式化，但偶尔会出现忘记格式化（忘记添加注解的问题），遂在此添加全局配置，顺带做个笔记 方法1：项目配置 这种方式只对 Dat" />
+        
+    <meta name="applicable-device" content="pc,mobile" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta name="robots" content="max-image-preview:large" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="springboot全局时间格式化">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="dns-prefetch" href="https:/www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googleadservices.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://cm.g.doubleclick.net">
+    
+    <link rel="stylesheet" type="text/css" href="/assets/website/css/vlessnode/vendor.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.4.1/swiper-bundle.min.css" />
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/website/css/vlessnode/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- script ================================================== -->
+    <script src="/assets/website/js/frontend/vlessnode/modernizr.js"></script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MG83FTMJCH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MG83FTMJCH');
+</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3332997411212854"
+     crossorigin="anonymous"></script>
+</head>
+
+<body data-page="detail">
+        <!-- Navigation Section Starts -->
+    <section id="navigation-bar" class="navigation position-fixed">
+        <nav id="navbar-example2" class="navbar navbar-expand-lg ">
+            <div class="navigation container-fluid d-flex flex-wrap align-items-center my-2 pe-4 ps-5 ">
+                <div class="col-md-3 brand-logo">
+                    <a href="/" class="d-inline-flex link-body-emphasis">
+                                        <span>香港VPN</span>
+                                        </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbar2Label">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav align-items-center flex-grow-1">
+                                                        <li class="nav-list mx-3">
+                                <a href="/" class="nav-link px-2">
+                                    <h5> 首页 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/free-nodes/" class="nav-link px-2">
+                                    <h5> 免费节点 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/paid-subscribe/" class="nav-link px-2">
+                                    <h5> 推荐机场 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/news/" class="nav-link px-2">
+                                    <h5> 新闻资讯 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/client.htm" class="nav-link px-2">
+                                    <h5> 客户端 </h5>
+                                </a>
+                            </li>
+                                                    </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </section>
+    <!-- Hero Section Starts -->
+    <section id="hero">
+        <div id="resources" class="hero container py-5 my-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                </div>
+                <div class="col-lg-6">
+                    <div class="breadcrumb ">
+                        <span class="item">
+                            <a href="/">
+                                <h5> <u>首页</u> </h5>
+                            </a>
+                        </span>
+                        &nbsp;<h5>/</h5> &nbsp; 
+                        <span class="item">
+                            <a href="/news/">
+                                <h5> <u>新闻资讯</u> </h5>
+                            </a>
+                        </span>
+                        &nbsp;<h5>/</h5> &nbsp; 
+
+                        <span class="item">
+                            <h5>正文</h5>
+                        </span>
+                    </div>
+                    <h1 class=" lh-1 mb-3">springboot全局时间格式化</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Feature Section Starts -->
+    <section id="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                                    <input type="hidden" id="share-website-info" data-name="Clash Meta免费节点订阅站" data-url="https://clash-meta.github.io">
+                  				  				  				<div id="content_views" class="markdown_views prism-atom-one-light"> <h2><a id="_0" rel="nofollow"></a>前言</h2> <p>这边一直用的返回参数加 @JsonFormat 注解的方式对日期进行格式化，但偶尔会出现忘记格式化（忘记添加注解的问题），遂在此添加全局配置，顺带做个笔记<br /><img decoding="async" src="http://img.555519.xyz/uploads3/20220903/896271aa509dd5162eebcc0ee0dc5123.jpg" alt="springboot全局时间格式化"></p> <h2><a id="1_5" rel="nofollow"></a>方法1：项目配置</h2> <p>这种方式只对 Date 类型生效</p> <pre><code class="prism language-yml"><span class="token comment"># 日期统一格式化</span><span class="token key atrule">spring</span><span class="token punctuation">:</span><span class="token key atrule">jackson</span><span class="token punctuation">:</span><span class="token key atrule">date-format</span><span class="token punctuation">:</span> yyyy<span class="token punctuation">-</span>MM<span class="token punctuation">-</span>dd HH<span class="token punctuation">:</span>mm<span class="token punctuation">:</span>ss<span class="token key atrule">time-zone</span><span class="token punctuation">:</span> GMT+8</code></pre> <p>下面这个也是亲测OK</p> <pre><code class="prism language-Properties"># 日期统一按时间戳返回 spring.jackson.serialization.write-dates-as-timestamps=true</code></pre> <h2><a id="JsonFormat_19" rel="nofollow"></a>方法二：@JsonFormat</h2> <p>部分格式化:@JsonFormat 注解需要用在实体类的时间字段上，对应的字段才能进行格式化。</p> <pre><code class="prism language-java"><span class="token annotation punctuation">@Getter</span><span class="token annotation punctuation">@Setter</span><span class="token keyword">public</span><span class="token keyword">class</span><span class="token class-name">TestTime</span><span class="token punctuation">{<!-- --></span><span class="token annotation punctuation">@JsonFormat</span><span class="token punctuation">(</span>locale<span class="token operator">=</span><span class="token string">"zh"</span><span class="token punctuation">,</span> timezone<span class="token operator">=</span><span class="token string">"GMT+8"</span><span class="token punctuation">,</span> pattern<span class="token operator">=</span><span class="token string">"yyyy-MM-dd HH:mm:ss"</span><span class="token punctuation">)</span><span class="token keyword">private</span><span class="token class-name">Date</span> date<span class="token punctuation">;</span><span class="token keyword">private</span><span class="token class-name">LocalDateTime</span> localDateTime<span class="token punctuation">;</span><span class="token annotation punctuation">@JsonFormat</span><span class="token punctuation">(</span>locale<span class="token operator">=</span><span class="token string">"zh"</span><span class="token punctuation">,</span> timezone<span class="token operator">=</span><span class="token string">"GMT+8"</span><span class="token punctuation">,</span> pattern<span class="token operator">=</span><span class="token string">"yyyyMMdd"</span><span class="token punctuation">)</span><span class="token keyword">private</span><span class="token class-name">LocalDate</span> localDate<span class="token punctuation">;</span><span class="token annotation punctuation">@JsonFormat</span><span class="token punctuation">(</span>locale<span class="token operator">=</span><span class="token string">"zh"</span><span class="token punctuation">,</span> timezone<span class="token operator">=</span><span class="token string">"GMT+8"</span><span class="token punctuation">,</span> pattern<span class="token operator">=</span><span class="token string">"HHmmss"</span><span class="token punctuation">)</span><span class="token keyword">private</span><span class="token class-name">LocalTime</span> localTime<span class="token punctuation">;</span><span class="token punctuation">}</span></code></pre> <h2><a id="JsonComponent_39" rel="nofollow"></a>方法三：@JsonComponent</h2> <p>使用 @JsonComponent 注解自定义一个全局格式化类，分别对 Date 和 LocalDate 类型做格式化处理。</p> <pre><code class="prism language-java"><span class="token annotation punctuation">@JsonComponent</span><span class="token keyword">public</span><span class="token keyword">class</span><span class="token class-name">JsonComponentConfig</span><span class="token punctuation">{<!-- --></span><span class="token annotation punctuation">@Value</span><span class="token punctuation">(</span><span class="token string">"${spring.jackson.date-format:yyyy-MM-dd HH:mm:ss}"</span><span class="token punctuation">)</span><span class="token keyword">private</span><span class="token class-name">String</span> pattern<span class="token punctuation">;</span><span class="token comment">/**      * date 类型全局时间格式化      */</span><span class="token annotation punctuation">@Bean</span><span class="token keyword">public</span><span class="token class-name">Jackson2ObjectMapperBuilderCustomizer</span><span class="token function">jackson2ObjectMapperBuilder</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{<!-- --></span><span class="token keyword">return</span> builder<span class="token operator">-&gt;</span><span class="token punctuation">{<!-- --></span><span class="token class-name">TimeZone</span> tz<span class="token operator">=</span><span class="token class-name">TimeZone</span><span class="token punctuation">.</span><span class="token function">getTimeZone</span><span class="token punctuation">(</span><span class="token string">"UTC"</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token class-name">DateFormat</span> df<span class="token operator">=</span><span class="token keyword">new</span><span class="token class-name">SimpleDateFormat</span><span class="token punctuation">(</span>pattern<span class="token punctuation">)</span><span class="token punctuation">;</span>             df<span class="token punctuation">.</span><span class="token function">setTimeZone</span><span class="token punctuation">(</span>tz<span class="token punctuation">)</span><span class="token punctuation">;</span>             builder<span class="token punctuation">.</span><span class="token function">failOnEmptyBeans</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">failOnUnknownProperties</span><span class="token punctuation">(</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">featuresToDisable</span><span class="token punctuation">(</span><span class="token class-name">SerializationFeature</span><span class="token punctuation">.</span>WRITE_DATES_AS_TIMESTAMPS<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">dateFormat</span><span class="token punctuation">(</span>df<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">}</span><span class="token punctuation">;</span><span class="token punctuation">}</span><span class="token comment">/**      * LocalDate 类型全局时间格式化      */</span><span class="token keyword">public</span><span class="token class-name">LocalDateTimeSerializer</span><span class="token function">localDateTimeDeserializer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{<!-- --></span><span class="token keyword">return</span><span class="token keyword">new</span><span class="token class-name">LocalDateTimeSerializer</span><span class="token punctuation">(</span><span class="token class-name">DateTimeFormatter</span><span class="token punctuation">.</span><span class="token function">ofPattern</span><span class="token punctuation">(</span>pattern<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">}</span><span class="token annotation punctuation">@Bean</span><span class="token keyword">public</span><span class="token class-name">Jackson2ObjectMapperBuilderCustomizer</span><span class="token function">jackson2ObjectMapperBuilderCustomizer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{<!-- --></span><span class="token keyword">return</span> builder<span class="token operator">-&gt;</span> builder<span class="token punctuation">.</span><span class="token function">serializerByType</span><span class="token punctuation">(</span><span class="token class-name">LocalDateTime</span><span class="token punctuation">.</span><span class="token keyword">class</span><span class="token punctuation">,</span><span class="token function">localDateTimeDeserializer</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">}</span><span class="token punctuation">}</span></code></pre> </div> 			                <div class="clearfix"></div>
+                <div class="col-md-12 mt-5">
+                                        <p>上一个：<a href="/news/article-69904.htm">中国兽药十大名牌厂家排名河南有哪些 河南兽药十强企业</a></p>
+                                        <p>下一个：<a href="/news/article-70567.htm">宠物领养协议书范本免费模板图片大全（宠物领养协议书怎么写有效）</a></p>
+                                    </div>
+                                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">热门文章</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="p-0 x-0" style="list-style: none;margin: 0;padding: 0;">
+                        <li class="py-2"><a href="/free-nodes/2025-3-8-clash-v2ray-ss-ssr.htm" title="香港VPN | 3月8日19M/S|免费V2ray/SSR/Clash/Shadowrocket免费节点订阅分享">香港VPN | 3月8日19M/S|免费V2ray/SSR/Clash/Shadowrocket免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/news/article-71212.htm" title="动物医院诊疗范围有哪些项目可以报销（动物医院诊疗范围有哪些项目可以报销医保）">动物医院诊疗范围有哪些项目可以报销（动物医院诊疗范围有哪些项目可以报销医保）</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-2-23-free-node-subscribe.htm" title="香港VPN | 2月23日19M/S|免费Clash/V2ray/Shadowrocket/SSR免费节点订阅分享">香港VPN | 2月23日19M/S|免费Clash/V2ray/Shadowrocket/SSR免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/news/article-69256.htm" title="1宠物领养中心 宠物领养中心要钱吗">1宠物领养中心 宠物领养中心要钱吗</a></li>
+                        <li class="py-2"><a href="/news/article-70566.htm" title="springboot全局时间格式化">springboot全局时间格式化</a></li>
+                        <li class="py-2"><a href="/news/article-60663.htm" title="被猫抓了十天后猫没死人安全吗（被猫抓了十天后猫没死人安全吗会死吗）">被猫抓了十天后猫没死人安全吗（被猫抓了十天后猫没死人安全吗会死吗）</a></li>
+                        <li class="py-2"><a href="/news/article-66704.htm" title="Cpp的异常处理Exception Handling-笔记">Cpp的异常处理Exception Handling-笔记</a></li>
+                        <li class="py-2"><a href="/news/article-69255.htm" title="动物接种疫苗多少钱一针（动物 疫苗）">动物接种疫苗多少钱一针（动物 疫苗）</a></li>
+                        <li class="py-2"><a href="/news/article-68598.htm" title="成都宠物领养平台怎么样啊（成都宠物领养平台怎么样啊知乎）">成都宠物领养平台怎么样啊（成都宠物领养平台怎么样啊知乎）</a></li>
+                        <li class="py-2"><a href="/news/article-67959.htm" title="人民银行lpr最新报价2021年6月(人民银行lpr调整频率)">人民银行lpr最新报价2021年6月(人民银行lpr调整频率)</a></li>
+                    </ul>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">归纳</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="p-0 x-0" style="list-style: none;margin: 0;padding: 0;">
+                        <li class="py-2">
+                <h4><span class="badge" style="float: right;">30</span> <a href="/date/2025-03/" title="2025-03 归档">2025-03</a></h4>
+            </li>
+                        <li class="py-2">
+                <h4><span class="badge" style="float: right;">30</span> <a href="/date/2025-02/" title="2025-02 归档">2025-02</a></h4>
+            </li>
+                    </ul>
+    </div>
+</div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+        <section class="footer-2">
+        <footer class="container footer-2-container  d-flex align-items-center">
+            <div class="col-md-4 d-flex justify-content-center justify-content-md-start">
+                <p class="footer2-paragraph">© All rights reserved.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:facebook-fill"></iconify-icon>
+                </a>
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:twitter-fill"></iconify-icon>
+                </a>
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:instagram-fill"></iconify-icon>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <p class="footer2-paragraph d-flex justify-content-center justify-content-md-end">
+                            <p>
+                                <a href="/">首页</a> | 
+                                <a href="/free-node/">免费节点</a> | 
+                                <a href="/news/">新闻资讯</a> |
+                                <a href="/about-us.htm">关于我们</a> |
+                                <a href="/disclaimer.htm">免责申明</a> |
+                                <a href="/privacy.htm">隐私申明</a> |
+                                <a href="/sitemap.xml">网站地图</a>
+                            </p>
+                    香港VPN 机场订阅节点官网 版权所有 Powered by WordPress
+                </p>
+            </div>
+        </footer>
+    </section>
+    <!-- Scripts  Starts -->
+    <script src="/assets/website/js/frontend/vlessnode/jquery-3.5.1.min.js"></script>
+    <script src="/assets/website/js/frontend/vlessnode/plugins.js"></script>
+    <script src="/assets/website/js/frontend/vlessnode/script.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.4.1/swiper-bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script src="https://www.freeclashnode.com/assets/js/frontend/invite-url.js"></script>
+    <script src="/assets/website/js/frontend/G.js"></script>
+</body>
+
+</html>
