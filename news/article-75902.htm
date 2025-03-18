@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xml:lang="zh-CN" lang="zh-CN">
+
+<head>
+        <link rel="canonical" href="https://hongkongvpn.github.io/news/article-75902.htm" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实战篇：单库单表变更成多库多表</title>
+        <meta name="description" content="如标题所说，本文会结合我自己的亲身经历，介绍 3 部分内容：  线上单库单表变更到多库多表的各个实现方案 方案优劣对比 对于历史存在的单表，并且它们不需要变成多表，需要怎么处理  先下个结论，没有百分" />
+        <link rel="icon" href="/assets/website/img/vlessnode/favicon.ico" type="image/x-icon"/>
+
+    <meta name="author" content="香港VPN 机场订阅节点官网">
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://hongkongvpn.github.io/news/article-75902.htm" />
+    <meta property="og:site_name" content="香港VPN 机场订阅节点官网" />
+    <meta property="og:title" content="实战篇：单库单表变更成多库多表" />
+    <meta property="og:image" content="https://hongkongvpn.github.io/uploads/20240826/3eea0d3ff6218a3ab259adbb8dc9282f.webp" />
+        <meta property="og:release_date" content="2025-03-17T09:41:45" />
+    <meta property="og:updated_time" content="2025-03-17T09:41:45" />
+        <meta property="og:description" content="如标题所说，本文会结合我自己的亲身经历，介绍 3 部分内容：  线上单库单表变更到多库多表的各个实现方案 方案优劣对比 对于历史存在的单表，并且它们不需要变成多表，需要怎么处理  先下个结论，没有百分" />
+        
+    <meta name="applicable-device" content="pc,mobile" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta name="robots" content="max-image-preview:large" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="实战篇：单库单表变更成多库多表">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="dns-prefetch" href="https:/www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googleadservices.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://cm.g.doubleclick.net">
+    
+    <link rel="stylesheet" type="text/css" href="/assets/website/css/vlessnode/vendor.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.4.1/swiper-bundle.min.css" />
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/website/css/vlessnode/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- script ================================================== -->
+    <script src="/assets/website/js/frontend/vlessnode/modernizr.js"></script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MG83FTMJCH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MG83FTMJCH');
+</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3332997411212854"
+     crossorigin="anonymous"></script>
+</head>
+
+<body data-page="detail">
+        <!-- Navigation Section Starts -->
+    <section id="navigation-bar" class="navigation position-fixed">
+        <nav id="navbar-example2" class="navbar navbar-expand-lg ">
+            <div class="navigation container-fluid d-flex flex-wrap align-items-center my-2 pe-4 ps-5 ">
+                <div class="col-md-3 brand-logo">
+                    <a href="/" class="d-inline-flex link-body-emphasis">
+                                        <span>香港VPN</span>
+                                        </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbar2Label">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav align-items-center flex-grow-1">
+                                                        <li class="nav-list mx-3">
+                                <a href="/" class="nav-link px-2">
+                                    <h5> 首页 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/free-nodes/" class="nav-link px-2">
+                                    <h5> 免费节点 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/paid-subscribe/" class="nav-link px-2">
+                                    <h5> 推荐机场 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/news/" class="nav-link px-2">
+                                    <h5> 新闻资讯 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/client.htm" class="nav-link px-2">
+                                    <h5> 客户端 </h5>
+                                </a>
+                            </li>
+                                                    </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </section>
+    <!-- Hero Section Starts -->
+    <section id="hero">
+        <div id="resources" class="hero container py-5 my-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                </div>
+                <div class="col-lg-6">
+                    <div class="breadcrumb ">
+                        <span class="item">
+                            <a href="/">
+                                <h5> <u>首页</u> </h5>
+                            </a>
+                        </span>
+                        &nbsp;<h5>/</h5> &nbsp; 
+                        <span class="item">
+                            <a href="/news/">
+                                <h5> <u>新闻资讯</u> </h5>
+                            </a>
+                        </span>
+                        &nbsp;<h5>/</h5> &nbsp; 
+
+                        <span class="item">
+                            <h5>正文</h5>
+                        </span>
+                    </div>
+                    <h1 class=" lh-1 mb-3">实战篇：单库单表变更成多库多表</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Feature Section Starts -->
+    <section id="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                                    <input type="hidden" id="share-website-info" data-name="Clash Meta免费节点订阅站" data-url="https://clash-meta.github.io">
+                  				  				  				<p><span style="font-size: 1em;">如标题所说，本文会结合我自己的亲身经历，介绍 3 部分内容：</span></p> <ol> <li>线上单库单表变更到多库多表的各个实现方案</li> <li>方案优劣对比</li> <li>对于历史存在的单表，并且它们<strong>不需要</strong>变成多表，需要怎么处理</li> </ol> <p>先下个结论，<strong>没有百分百完美的方案，技术方案永远要结合产品业务来设计</strong>。</p> <p>以下举例的方案也只是较为通用的做法，具体细节是可以根据业务场景进行变化调整的。</p> <p>只要能够满足业务需求，就是好方案，不要为了秀技术而忽略业务。</p> <p>看完这篇文章，如果后面有人问你，关于变更到多库多表的方案问题，那你可以和他谈笑风生了。</p> <p>好了，下面我说下我这边的业务背景，和大家解释清楚为什么需要多库多表。后面会引申出方案的，莫急。</p> <h2 id="1-业务背景">1. 业务背景</h2> <p>有一个<strong>在线上运行着</strong>的数据库，假设是 user 库，库中<strong>只有</strong> 1 张单表。</p> <p>现在有个新需求，该需求的功能有一定的请求量和数据量。</p> <p>其中数据量初期是百万级，考虑到业务增加，增长到千万、上亿都是有可能的。<strong>所以从数据量上看，单库单表不合适</strong>。</p> <p>Q1：如果只是数据量问题，那用单库多表行不行？<br /> A1：行。<br /> Q2：那为什么还用多库多表呢？<br /> A2：<strong>因为一个数据库的连接数量是有限的，怕翻车</strong>。</p> <p>上面有介绍业务有一定的请求量，担心一个库来处理的话，万一哪天网络不好/慢查/该表业务有突发性活动等情况出现。</p> <p>一不小心就把连接数占满了，那就直接翻车了。</p> <p>加上我司对多库多表的基建比较成熟，所以我这边就直接上多库多表了。</p> <p>Q3：既然如此，前期先上单库多表，等量上来后再多库多表行不行？<br /> A3：可以。但是到时再来一次太累了。</p> <p>比如再来一次会经历以下事情：</p> <ul> <li>每天需要看看数据监控</li> <li>有没有到瓶颈</li> <li>到时再次变更时，开发运维测试业务的排期和执行</li> <li>业务变动：说好的下个季度大推，结果提前到下一个月进行，此时数据库能不能扛住，扛不住改造时间是否充足？</li> </ul> <p>所以，我们要不还是一步到位吧。</p> <blockquote> <p>滴，七淅提醒你：看到这，如果有人问你单库多表和多库多表的使用场景，你应该知道怎么发挥了吧</p> </blockquote> <h2 id="2-历史数据处理">2. 历史数据处理</h2> <p>我先说下对历史数据处理，篇幅较少。</p> <p>这里的内容对应文章开头的第三点：对于历史存在的单表，并且它们<strong>不需要</strong>变成多表，需要怎么处理</p> <p>这里可以有两种处理方式。</p> <p>我们知道，历史数据在 user 库，假设业务需要增加到 8 个库，并且新表需要在这 8 个库中</p> <h3 id="21-方式一">2.1 方式一</h3> <p>新增<code>user_0、user_1、...、user_7</code> 共 8 个库，使用<code>rename</code> 命令，将 user 库的表迁移到<code>user_0</code> 库中，最后将 user 库删掉即可。</p> <p>rename 命令其实就是重新命名，实现剪切数据的效果，而不是复制。当然要用复制的方式迁移数据也是可以的，但我们这边没用。</p> <p>reanme 命令使用如下：</p> <p><code>rename table user.table_name to user_0.table_name;</code></p> <h3 id="22-方式二">2.2 方式二</h3> <p>新增<code>user_0、user_1、...、user_7</code> 共 8 个库，user 库数据不动，继续使用。</p> <p>至于选哪种方式，大多情况下，我个人认为都可以，但如果历史表本身请求就很高，那可以考虑用方式二，避免 0 号库压力太大。</p> <p>我这边是选择的方式一。当用户要访问历史表时，指定路由到 0 号库就好了，顺便省下一台数据库的钱，真香</p> <h2 id="3-变更方案">3. 变更方案</h2> <p>方案这块内容，我会基于方式一的历史数据处理方式来讲。</p> <p>首先，先不考虑任何方案，我把最简单的，变更到多库多表的操作按顺序列举一下：</p> <ol> <li>修改服务连接数据库的配置，业务代码编写</li> <li>增加 user 0-7 号数据库</li> <li>将 user 库旧表数据迁移到新增 user_0 库</li> <li>部署服务</li> </ol> <p>但是如果按照上述做法，在第 3、4 步执行期间，如果用户访问原 user 库的数据会有问题。</p> <p>具体来说：user 库的旧数据此时已经通过 rename，迁移到了 user_0 库，但因为部署还没部署完成，连接数据库的配置没有更新。</p> <p>所以请求依旧会跑去 user 库查询，导致查不到数据，后续业务逻辑没法顺序继续执行。</p> <p>用户也会纳闷：「这个地方之前进来都有数据的呀，怎么现在全空了？」</p> <p>所以，需要确定合理的升级方案，最大程度减少对业务和用户的影响，</p> <h3 id="31-方案一">3.1 方案一</h3> <p>这是最简单的方式。</p> <p>看监控，挑选没有流量的时候，进行 db 变更和服务部署。</p> <p>当然，监控也只是过去的情况，保不准功能上线那天就一直有流量没停歇过呢。</p> <p>所以再求稳一点的话，可以发个公告，告知用户 xx 功能会在 xxx 时间段进行维护，期间不可访问。</p> <p>如果有玩农药（王者荣耀）的朋友应该很熟悉吧，每次版本更新都需要停服，就是这样的效果哈。</p> <p>最后在完成之后，进行回归测试和新功能测试，看看功能是否正常。</p> <p>如果正常那就可以去睡觉了，有问题就继续改 bug 解决；</p> <p>如果评估没法在公告所说的截止时间解决，那就只能进行回滚，改日再（jia）战（ban）。</p> <p>PS：如果需要对历史数据进行分库分表的话，最好进行数据量的对比检验。因为我这边不涉及对历史数据进行分库分表，所以这步就省了。</p> <h3 id="32-方案二">3.2 方案二</h3> <p>这个方案会复杂很多，开发量也会很大。</p> <p>我这边就只说关键步骤，具体细节就没法一一写了。因为要写的话又多出几千字的内容，篇幅太长，我估计也没多少人有耐心看完。</p> <p>那话说回来，这个方案最大的好处就是业务功能不用停用，所以也就不用熬大夜了。</p> <p>那要怎么做呢？</p> <h4 id="321-历史单表数据处理">3.2.1 历史单表数据处理</h4> <p>1、先把 user 库现有的数据复制一份到 user_0 库。</p> <p>2、因为 user 库的数据是会被修改和新增的。所以当复制完成后，数据依旧存在变化，所以需要新增双写逻辑，保证 user_0 库的数据也能同步到变更。</p> <p>3、对于数据的读写，都支持由开关控制，分别可以控制数据读写是请求到哪个数据库。</p> <p>4、服务更新完成后，进行两个库的数据一致性对比。都没问题后，开关控制读写数据都请求到 user_0 库</p> <h4 id="322-新功能的多表数据处理">3.2.2 新功能的多表数据处理</h4> <p>因为是新功能，其实不用怎么特殊处理。</p> <p>为什么这么说呢？</p> <p>因为我们部署服务的顺序肯定是操作数据库的底层服务先发布，发布完成后，才对用到底层服务的应用服务进行发布。</p> <p>所以作为业务功能入口的应用服务都还没发布，此时是不会有新功能数据到达底层服务的。</p> <p>要是不能保证这个顺序，你想下功能入口开放了，用户请求进来后，底层服务发现找不到这个表，是不是就直接报错了？</p> <p>所以才会有上面说的发布顺序，只要保证发布顺序没错，那这块新功能的数据是不需要特殊处理。</p> <h3 id="33-方案优劣对比">3.3 方案优劣对比</h3> <p>其实 2 个方案就是互补的，一个方案的优点就是解决了另一个方案的缺点。</p> <p>七淅用表格总结一下：</p> <table> <thead> <tr> <th></th> <th>优点</th> <th>缺点</th> </tr> </thead> <tbody> <tr> <td>方案一</td> <td>操作简单，无需编写复杂代码来保证有流量时，业务的正常执行</td> <td>累人，熬大夜太酸爽了；会停用部分业务，影响用户体验</td> </tr> <tr> <td>方案二</td> <td>业务不必停用，不影响用户</td> <td>开发成本大</td> </tr> </tbody> </table> <p>最后，你问我当初是选哪个方案？</p> <p>那肯定是方案一啊，大不了熬一夜嘛。</p> <p>不然那么麻烦的方案，排期又那么紧张，开发是不可能开发的，这辈子都不可能的。真有什么问题，大不了就人工介入处理，</p> 			                <div class="clearfix"></div>
+                <div class="col-md-12 mt-5">
+                                        <p>上一个：<a href="/news/article-75226.htm">宠物粮行业协会会长是谁啊（宠物粮市场前景怎么样）</a></p>
+                                        <p>下一个：<a href="/news/article-75904.htm">动物防疫疫苗管理要点有哪些（动物疫苗的管理方法）</a></p>
+                                    </div>
+                                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">热门文章</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="p-0 x-0" style="list-style: none;margin: 0;padding: 0;">
+                        <li class="py-2"><a href="/news/article-66068.htm" title="免费领养宠物的app下载安卓（免费领养宠物的应用）">免费领养宠物的app下载安卓（免费领养宠物的应用）</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-3-7-free-subscribe-node.htm" title="香港VPN | 3月7日18.4M/S|免费Clash/V2ray/Shadowrocket/SSR免费节点订阅分享">香港VPN | 3月7日18.4M/S|免费Clash/V2ray/Shadowrocket/SSR免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/news/article-70566.htm" title="springboot全局时间格式化">springboot全局时间格式化</a></li>
+                        <li class="py-2"><a href="/news/article-76578.htm" title="领养宠物要花钱吗现在（领养宠物要花钱吗现在多少钱）">领养宠物要花钱吗现在（领养宠物要花钱吗现在多少钱）</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-3-6-clash-v2ray-ss-ssr.htm" title="香港VPN | 3月6日21.7M/S|免费V2ray/SSR/Clash/Shadowrocket免费节点订阅分享">香港VPN | 3月6日21.7M/S|免费V2ray/SSR/Clash/Shadowrocket免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/news/article-69903.htm" title="动物接种疫苗的好处有哪些方面的问题呢（动物接种疫苗多少钱）">动物接种疫苗的好处有哪些方面的问题呢（动物接种疫苗多少钱）</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-2-26-free-node-subscribe.htm" title="香港VPN | 2月26日18.7M/S|免费SSR/Clash/Shadowrocket/V2ray免费节点订阅分享">香港VPN | 2月26日18.7M/S|免费SSR/Clash/Shadowrocket/V2ray免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-2-24-free-v2ray.htm" title="香港VPN | 2月24日18.9M/S|免费Clash/SSR/Shadowrocket/V2ray免费节点订阅分享">香港VPN | 2月24日18.9M/S|免费Clash/SSR/Shadowrocket/V2ray免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/news/article-71211.htm" title="猫疫苗去宠物店打还是宠物医院打好（宠物医院猫咪打疫苗）">猫疫苗去宠物店打还是宠物医院打好（宠物医院猫咪打疫苗）</a></li>
+                        <li class="py-2"><a href="/news/article-73869.htm" title="合肥猫咪领养微信群 合肥猫咪领养微信群号">合肥猫咪领养微信群 合肥猫咪领养微信群号</a></li>
+                    </ul>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">归纳</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="p-0 x-0" style="list-style: none;margin: 0;padding: 0;">
+                        <li class="py-2">
+                <h4><span class="badge" style="float: right;">54</span> <a href="/date/2025-03/" title="2025-03 归档">2025-03</a></h4>
+            </li>
+                        <li class="py-2">
+                <h4><span class="badge" style="float: right;">30</span> <a href="/date/2025-02/" title="2025-02 归档">2025-02</a></h4>
+            </li>
+                    </ul>
+    </div>
+</div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+        <section class="footer-2">
+        <footer class="container footer-2-container  d-flex align-items-center">
+            <div class="col-md-4 d-flex justify-content-center justify-content-md-start">
+                <p class="footer2-paragraph">© All rights reserved.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:facebook-fill"></iconify-icon>
+                </a>
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:twitter-fill"></iconify-icon>
+                </a>
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:instagram-fill"></iconify-icon>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <p class="footer2-paragraph d-flex justify-content-center justify-content-md-end">
+                            <p>
+                                <a href="/">首页</a> | 
+                                <a href="/free-node/">免费节点</a> | 
+                                <a href="/news/">新闻资讯</a> |
+                                <a href="/about-us.htm">关于我们</a> |
+                                <a href="/disclaimer.htm">免责申明</a> |
+                                <a href="/privacy.htm">隐私申明</a> |
+                                <a href="/sitemap.xml">网站地图</a>
+                            </p>
+                    香港VPN 机场订阅节点官网 版权所有 Powered by WordPress
+                </p>
+            </div>
+        </footer>
+    </section>
+    <!-- Scripts  Starts -->
+    <script src="/assets/website/js/frontend/vlessnode/jquery-3.5.1.min.js"></script>
+    <script src="/assets/website/js/frontend/vlessnode/plugins.js"></script>
+    <script src="/assets/website/js/frontend/vlessnode/script.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.4.1/swiper-bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script src="https://www.freeclashnode.com/assets/js/frontend/invite-url.js"></script>
+    <script src="/assets/website/js/frontend/G.js"></script>
+</body>
+
+</html>
