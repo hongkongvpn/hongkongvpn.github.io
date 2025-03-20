@@ -2,23 +2,23 @@
 <html xml:lang="zh-CN" lang="zh-CN">
 
 <head>
-        <link rel="canonical" href="https://hongkongvpn.github.io/news/article-76577.htm" />
+        <link rel="canonical" href="https://hongkongvpn.github.io/news/article-77259.htm" />
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>用pandas展示数据输出时列名不能对齐</title>
-        <meta name="description" content="列名用了中文的缘故，设置pandas的参数即可，代码如下： 		 import pandas as pd 		 #这两个参数的默认设置都是False 		 pd.set_option('display" />
+    <title>SpringBoot之HandlerInterceptor拦截器的使用</title>
+        <meta name="description" content="拦截器我想大家都并不陌生，最常用的登录拦截、或是权限校验、或是防重复提交、或是根据业务像12306去校验购票时间,总之可以去做很多的事情。 我仔细想了想 这里我分三篇博客来介绍HandlerInter" />
         <link rel="icon" href="/assets/website/img/vlessnode/favicon.ico" type="image/x-icon"/>
 
     <meta name="author" content="香港VPN 机场订阅节点官网">
     <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://hongkongvpn.github.io/news/article-76577.htm" />
+    <meta property="og:url" content="https://hongkongvpn.github.io/news/article-77259.htm" />
     <meta property="og:site_name" content="香港VPN 机场订阅节点官网" />
-    <meta property="og:title" content="用pandas展示数据输出时列名不能对齐" />
-    <meta property="og:image" content="https://hongkongvpn.github.io/uploads/20240826/2c4a24270d62d274eb7498c3f4164853.webp" />
-        <meta property="og:release_date" content="2025-03-18T06:14:15" />
-    <meta property="og:updated_time" content="2025-03-18T06:14:15" />
-        <meta property="og:description" content="列名用了中文的缘故，设置pandas的参数即可，代码如下： 		 import pandas as pd 		 #这两个参数的默认设置都是False 		 pd.set_option('display" />
+    <meta property="og:title" content="SpringBoot之HandlerInterceptor拦截器的使用" />
+    <meta property="og:image" content="https://hongkongvpn.github.io/uploads/20240826/a2a78696d4ebe5a8292d3594e3f704b7.webp" />
+        <meta property="og:release_date" content="2025-03-19T09:11:37" />
+    <meta property="og:updated_time" content="2025-03-19T09:11:37" />
+        <meta property="og:description" content="拦截器我想大家都并不陌生，最常用的登录拦截、或是权限校验、或是防重复提交、或是根据业务像12306去校验购票时间,总之可以去做很多的事情。 我仔细想了想 这里我分三篇博客来介绍HandlerInter" />
         
     <meta name="applicable-device" content="pc,mobile" />
     <meta name="renderer" content="webkit" />
@@ -27,7 +27,7 @@
     <meta name="robots" content="max-image-preview:large" />
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="apple-mobile-web-app-title" content="用pandas展示数据输出时列名不能对齐">
+    <meta name="apple-mobile-web-app-title" content="SpringBoot之HandlerInterceptor拦截器的使用">
     <meta name="format-detection" content="telephone=no">
 
     <link rel="dns-prefetch" href="https:/www.googletagmanager.com">
@@ -136,7 +136,7 @@
                             <h5>正文</h5>
                         </span>
                     </div>
-                    <h1 class=" lh-1 mb-3">用pandas展示数据输出时列名不能对齐</h1>
+                    <h1 class=" lh-1 mb-3">SpringBoot之HandlerInterceptor拦截器的使用</h1>
                 </div>
             </div>
         </div>
@@ -147,10 +147,10 @@
             <div class="row">
                 <div class="col-md-9">
                                     <input type="hidden" id="share-website-info" data-name="Clash Meta免费节点订阅站" data-url="https://clash-meta.github.io">
-                  				  				  				<div id="content_views" class="markdown_views prism-atom-one-dark"> </h1> <h3> <a id="pandas_2" rel="nofollow"></a>列名用了中文的缘故，设置pandas的参数即可，代码如下：</h3> <pre><code>		 import pandas as pd 		 #这两个参数的默认设置都是False 		 pd.set_option('display.unicode.ambiguous_as_wide', True) 		 pd.set_option('display.unicode.east_asian_width', True) </code></pre> </p></div> 			                <div class="clearfix"></div>
+                  				  				  				<div id="content_views" class="markdown_views prism-dracula"> </h1> <p>拦截器我想大家都并不陌生，最常用的登录拦截、或是权限校验、或是防重复提交、或是根据业务像12306去校验购票时间,总之可以去做很多的事情。<br /> 我仔细想了想<br /> 这里我分三篇博客来介绍HandlerInterceptor的使用，从基本的使用、到自定义注解、最后到读取body中的流解决无法多次读取的问题。</p> <h2><a id="1_4" rel="nofollow"></a>1、定义实现类</h2> <p>定义一个Interceptor 非常简单方式也有几种，我这里简单列举两种<br /> 1、类要实现Spring 的HandlerInterceptor 接口<br /> 2、类继承实现了HandlerInterceptor 接口的类，例如 已经提供的实现了HandlerInterceptor 接口的抽象类HandlerInterceptorAdapter</p> <blockquote> <p>这里博主用的是第二种方法继承HandlerInterceptorAdapter</p> </blockquote> <h2><a id="2HandlerInterceptor_10" rel="nofollow"></a>2、HandlerInterceptor方法介绍</h2> <pre><code> 	boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) 			throws Exception;  	void postHandle( 			HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) 			throws Exception;  	void afterCompletion( 			HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) 			throws Exception;</code></pre> <ul> <li>preHandle：在业务处理器处理请求之前被调用。预处理，可以进行编码、安全控制、权限校验等处理；</li> <li>postHandle：在业务处理器处理请求执行完成后，生成视图之前执行。后处理（调用了Service并返回ModelAndView，但未进行页面渲染），有机会修改ModelAndView （这个博主就基本不怎么用了）；</li> <li>afterCompletion：在DispatcherServlet完全处理完请求后被调用，可用于清理资源等。返回处理（已经渲染了页面）；</li> </ul> <p>接下来让我们来实现一个登陆 and 访问权限校验的拦截器吧</p> <h2><a id="_31" rel="nofollow"></a>拦截器实现</h2> <ul> <li>新建TestFilter</li> </ul> <pre><code>package com.xxx.core.filter;  import com.xxx.common.exception.FastRuntimeException; import org.slf4j.Logger; import org.slf4j.LoggerFactory; import org.springframework.web.servlet.ModelAndView; import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;  import javax.servlet.http.HttpServletRequest; import javax.servlet.http.HttpServletResponse;   public class TestFilter extends HandlerInterceptorAdapter { 	private final Logger logger = LoggerFactory.getLogger(TestFilter.class); 	@Override 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) 			throws Exception { 		logger.info("request请求地址path[{}] uri[{}]", request.getServletPath(),request.getRequestURI()); 		//request.getHeader(String) 从请求头中获取数据 		//从请求头中获取用户token（登陆凭证根据业务而定） 		Long userId= getUserId(request.getHeader("H-User-Token")); 		if (userId != null &amp;&amp; checkAuth(userId,request.getRequestURI())){ 			return true; 		} 		//这里的异常是我自定义的异常，系统抛出异常后框架捕获异常然后转为统一的格式返回给前端， 其实这里也可以返回false 		throw new FastRuntimeException(20001,"No access"); 	}  	/** 	 * 根据token获取用户ID 	 * @param userToken 	 * @return 	 */ 	private Long getUserId(String userToken){ 		Long userId = null; 		return userId; 	}  	/** 	 * 校验用户访问权限 	 * @param userId 	 * @param requestURI 	 * @return 	 */ 	private boolean checkAuth(Long userId,String requestURI){ 		return true; 	}  	@Override 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, 						   ModelAndView modelAndView) throws Exception {}  	@Override 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) 			throws Exception {} }</code></pre> <ul> <li>新建WebAppConfigurer 实现WebMvcConfigurer接口</li> </ul> <blockquote> <p>其实以前都是继承WebMvcConfigurerAdapter类 不过springBoot2.0以上 WebMvcConfigurerAdapter 方法过时，有两种替代方案：<br /> 1、继承WebMvcConfigurationSupport<br /> 2、实现WebMvcConfigurer<br /> 但是继承WebMvcConfigurationSupport会让Spring-boot对mvc的自动配置失效。根据项目情况选择。现在大多数项目是前后端分离，并没有对静态资源有自动配置的需求所以继承WebMvcConfigurationSupport也未尝不可。</p> </blockquote> <pre><code>@Configuration public class WebAppConfigurer implements WebMvcConfigurer {      @Override     public void addInterceptors(InterceptorRegistry registry) {         // 可添加多个         registry.addInterceptor(new TestFilter()).addPathPatterns("/**");     }      .... }</code></pre> <blockquote> <p>其实下面还有很多方法我这里就省略了，过滤器可以添加多个，可以指定Path，这里的/**是对所有的请求都做拦截。</p> </blockquote> <p>是否感觉配置这个地址是不特别方便？下一篇博客介绍2.0版本引入注解来协助完成一系列的拦截任务。<br /><a href="http://www.m6000.cn/wp-content/themes/begin%20lts/inc/go.php?url=https://blog.csdn.net/zhibo_lv/article/details/81738940"  rel="nofollow">SpringBoot之HandlerInterceptor拦截器的使用 ——（二）自定义注解</a><br /><a href="http://www.m6000.cn/wp-content/themes/begin%20lts/inc/go.php?url=https://blog.csdn.net/zhibo_lv/article/details/81875705"  rel="nofollow">SpringBoot之HandlerInterceptor拦截器的使用 ——（三）获取请求参数解决java.io.IOException: Stream closed</a><br /><a href="http://www.m6000.cn/wp-content/themes/begin%20lts/inc/go.php?url=https://blog.csdn.net/zhibo_lv/article/details/81905300"  rel="nofollow">SpringBoot之HandlerInterceptor拦截器的使用 ——（四）防重复提交</a></p> </div> 			                <div class="clearfix"></div>
                 <div class="col-md-12 mt-5">
-                                        <p>上一个：<a href="/news/article-75904.htm">动物防疫疫苗管理要点有哪些（动物疫苗的管理方法）</a></p>
-                                        <p>下一个：<a href="/news/article-76578.htm">领养宠物要花钱吗现在（领养宠物要花钱吗现在多少钱）</a></p>
+                                        <p>上一个：<a href="/news/article-76578.htm">领养宠物要花钱吗现在（领养宠物要花钱吗现在多少钱）</a></p>
+                                        <p>下一个：<a href="/news/article-77260.htm">宠物领养要钱吗知乎（领养宠物要花钱吗）</a></p>
                                     </div>
                                 </div>
                 <div class="col-md-3">
@@ -160,16 +160,16 @@
     </div>
     <div class="panel-body">
         <ul class="p-0 x-0" style="list-style: none;margin: 0;padding: 0;">
-                        <li class="py-2"><a href="/news/article-64845.htm" title="java socket 同时读写_java 中的 BIO/NIO/AIO 详解">java socket 同时读写_java 中的 BIO/NIO/AIO 详解</a></li>
-                        <li class="py-2"><a href="/news/article-69256.htm" title="1宠物领养中心 宠物领养中心要钱吗">1宠物领养中心 宠物领养中心要钱吗</a></li>
-                        <li class="py-2"><a href="/news/article-71878.htm" title="python连接MySQL数据库并读取数据库中的数据表存入list中">python连接MySQL数据库并读取数据库中的数据表存入list中</a></li>
-                        <li class="py-2"><a href="/news/article-75226.htm" title="宠物粮行业协会会长是谁啊（宠物粮市场前景怎么样）">宠物粮行业协会会长是谁啊（宠物粮市场前景怎么样）</a></li>
-                        <li class="py-2"><a href="/free-nodes/2025-3-9-free-subscribe-node.htm" title="香港VPN | 3月9日23M/S|免费V2ray/SSR/Clash/Shadowrocket免费节点订阅分享">香港VPN | 3月9日23M/S|免费V2ray/SSR/Clash/Shadowrocket免费节点订阅分享</a></li>
-                        <li class="py-2"><a href="/news/article-67345.htm" title="养猫的容易得什么病（养猫容易引起哪些疾病）">养猫的容易得什么病（养猫容易引起哪些疾病）</a></li>
-                        <li class="py-2"><a href="/news/article-73203.htm" title="动物防疫预防措施有哪些（动物防疫的重点措施有哪些）">动物防疫预防措施有哪些（动物防疫的重点措施有哪些）</a></li>
-                        <li class="py-2"><a href="/free-nodes/2025-3-7-free-subscribe-node.htm" title="香港VPN | 3月7日18.4M/S|免费Clash/V2ray/Shadowrocket/SSR免费节点订阅分享">香港VPN | 3月7日18.4M/S|免费Clash/V2ray/Shadowrocket/SSR免费节点订阅分享</a></li>
-                        <li class="py-2"><a href="/free-nodes/2025-3-20-free-high-speed-nodes.htm" title="香港VPN | 3月20日18.8M/S|免费Shadowrocket/V2ray/SSR/Clash免费节点订阅分享">香港VPN | 3月20日18.8M/S|免费Shadowrocket/V2ray/SSR/Clash免费节点订阅分享</a></li>
-                        <li class="py-2"><a href="/news/article-67958.htm" title="动物疫苗注射方法及部位图解（动物疫苗注射方法及部位图解大全）">动物疫苗注射方法及部位图解（动物疫苗注射方法及部位图解大全）</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-2-23-free-node-subscribe.htm" title="香港VPN | 2月23日19M/S|免费Clash/V2ray/Shadowrocket/SSR免费节点订阅分享">香港VPN | 2月23日19M/S|免费Clash/V2ray/Shadowrocket/SSR免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-3-19-node-share-links.htm" title="香港VPN | 3月19日22.3M/S|免费V2ray/SSR/Clash/Shadowrocket免费节点订阅分享">香港VPN | 3月19日22.3M/S|免费V2ray/SSR/Clash/Shadowrocket免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/news/article-77941.htm" title="三国杀特效素材图片（三国杀特效素材图片大全）">三国杀特效素材图片（三国杀特效素材图片大全）</a></li>
+                        <li class="py-2"><a href="/news/article-65459.htm" title="动物疫苗注射的作用有哪些方面呢（动物疫苗包括哪些）">动物疫苗注射的作用有哪些方面呢（动物疫苗包括哪些）</a></li>
+                        <li class="py-2"><a href="/news/article-64234.htm" title="React中事件的写法总结">React中事件的写法总结</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-2-19-free-subscribe-node.htm" title="香港VPN | 2月19日20.3M/S|免费SSR/V2ray/Clash/Shadowrocket免费节点订阅分享">香港VPN | 2月19日20.3M/S|免费SSR/V2ray/Clash/Shadowrocket免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-2-25-node-share.htm" title="香港VPN | 2月25日19.6M/S|免费V2ray/Shadowrocket/Clash/SSR免费节点订阅分享">香港VPN | 2月25日19.6M/S|免费V2ray/Shadowrocket/Clash/SSR免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/news/article-63610.htm" title="回收宠物店的电话号码是多少（附近宠物回收店）">回收宠物店的电话号码是多少（附近宠物回收店）</a></li>
+                        <li class="py-2"><a href="/news/article-74544.htm" title="函数的返回值存储问题">函数的返回值存储问题</a></li>
+                        <li class="py-2"><a href="/news/article-66707.htm" title="动物疫苗的类型包括（动物疫苗的种类和制备原理）">动物疫苗的类型包括（动物疫苗的种类和制备原理）</a></li>
                     </ul>
     </div>
 </div>
