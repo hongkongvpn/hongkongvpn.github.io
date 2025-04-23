@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html xml:lang="zh-CN" lang="zh-CN">
+
+<head>
+        <link rel="canonical" href="https://hongkongvpn.github.io/news/article-102601.htm" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unity 内置渲染管线转URP</title>
+        <meta name="description" content="未使用光照计算的shader升级后不做修改仍然可以使用，但是可能会不兼容SRP Batcher，所以仍然需要修改，使用了光照计算的shader必须要修改。   SubShader的Tags中增加 “R" />
+        <link rel="icon" href="/assets/website/img/vlessnode/favicon.ico" type="image/x-icon"/>
+
+    <meta name="author" content="香港VPN 机场订阅节点官网">
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://hongkongvpn.github.io/news/article-102601.htm" />
+    <meta property="og:site_name" content="香港VPN 机场订阅节点官网" />
+    <meta property="og:title" content="Unity 内置渲染管线转URP" />
+    <meta property="og:image" content="https://hongkongvpn.github.io/uploads/20240826/548ad4835c5c694560ce50df591bfe94.webp" />
+        <meta property="og:release_date" content="2025-04-23T08:44:26" />
+    <meta property="og:updated_time" content="2025-04-23T08:44:26" />
+        <meta property="og:description" content="未使用光照计算的shader升级后不做修改仍然可以使用，但是可能会不兼容SRP Batcher，所以仍然需要修改，使用了光照计算的shader必须要修改。   SubShader的Tags中增加 “R" />
+        
+    <meta name="applicable-device" content="pc,mobile" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta name="robots" content="max-image-preview:large" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Unity 内置渲染管线转URP">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="dns-prefetch" href="https:/www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googleadservices.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://cm.g.doubleclick.net">
+    
+    <link rel="stylesheet" type="text/css" href="/assets/website/css/vlessnode/vendor.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.4.1/swiper-bundle.min.css" />
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/website/css/vlessnode/style.css">
+    <link rel="stylesheet" href="/assets/website/css/G.css" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- script ================================================== -->
+    <script src="/assets/website/js/frontend/vlessnode/modernizr.js"></script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MG83FTMJCH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MG83FTMJCH');
+</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3332997411212854"
+     crossorigin="anonymous"></script>
+</head>
+
+<body data-page="detail">
+        <!-- Navigation Section Starts -->
+    <section id="navigation-bar" class="navigation position-fixed">
+        <nav id="navbar-example2" class="navbar navbar-expand-lg ">
+            <div class="navigation container-fluid d-flex flex-wrap align-items-center my-2 pe-4 ps-5 ">
+                <div class="col-md-3 brand-logo">
+                    <a href="/" class="d-inline-flex link-body-emphasis">
+                                        <span>香港VPN</span>
+                                        </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbar2Label">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav align-items-center flex-grow-1">
+                                                        <li class="nav-list mx-3">
+                                <a href="/" class="nav-link px-2">
+                                    <h5> 首页 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/free-nodes/" class="nav-link px-2">
+                                    <h5> 免费节点 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/paid-subscribe/" class="nav-link px-2">
+                                    <h5> 推荐机场 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/news/" class="nav-link px-2">
+                                    <h5> 新闻资讯 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/client.htm" class="nav-link px-2">
+                                    <h5> 客户端 </h5>
+                                </a>
+                            </li>
+                                                    </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </section>
+    <!-- Hero Section Starts -->
+    <section id="hero">
+        <div id="resources" class="hero container py-5 my-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                </div>
+                <div class="col-lg-6">
+                    <div class="breadcrumb ">
+                        <span class="item">
+                            <a href="/">
+                                <h5> <u>首页</u> </h5>
+                            </a>
+                        </span>
+                        &nbsp;<h5>/</h5> &nbsp; 
+                        <span class="item">
+                            <a href="/news/">
+                                <h5> <u>新闻资讯</u> </h5>
+                            </a>
+                        </span>
+                        &nbsp;<h5>/</h5> &nbsp; 
+
+                        <span class="item">
+                            <h5>正文</h5>
+                        </span>
+                    </div>
+                    <h1 class=" lh-1 mb-3">Unity 内置渲染管线转URP</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Feature Section Starts -->
+    <section id="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                                    <input type="hidden" id="share-website-info" data-name="Clash Meta免费节点订阅站" data-url="https://clash-meta.github.io">
+                <div class="xcblog-blog-detail">
+                      				  				  				<div id="content_views" class="markdown_views prism-atom-one-dark"> </h1> <ol> <li> <p>未使用光照计算的shader升级后不做修改仍然可以使用，但是可能会不兼容SRP Batcher，所以仍然需要修改，使用了光照计算的shader必须要修改。</p> </li> <li> <p>SubShader的Tags中增加 “RenderPipeline”="UniversalPipeline"声明</p> </li> <li> <p>要保证多pass物体正确绘制，需要确保有个pass打上<code>UniversalForward</code> 的tag，其余pass有<code>SRPDefaultUnlit</code>的tag也行，没有也行。</p> </li> <li> <blockquote> <p>HLSLPROGRAM 替换 CGPROGRAM<br /> HLSLINCLUDE 替换 INCLUDE<br /> ENDHLSL 替换 ENDCG</p> </blockquote> </li> <li> <p><code>fixed</code> 替换为：<code>half</code> 或者<code>float</code></p> </li> <li> <p>FallBack<br /> FallBack “Hidden/Universal Render Pipeline/FallbackError”</p> </li> <li> <p>LightMode</p> <pre><code class="prism language-c"><span class="token string">"LightMode"</span> 要改为URP支持的模式， 比如<span class="token string">"LightMode"</span><span class="token operator">=</span><span class="token string">"Forward"</span>     替换为<span class="token string">"LightMode"</span><span class="token operator">=</span><span class="token string">"UniversalForward"</span>  其他常用URP的mode类型：<span class="token string">"LightMode"</span><span class="token operator">=</span><span class="token string">"Universal2D"</span><span class="token string">"LightMode"</span><span class="token operator">=</span><span class="token string">"Meta"</span><span class="token string">"LightMode"</span><span class="token operator">=</span><span class="token string">"DepthOnly"</span><span class="token string">"LightMode"</span><span class="token operator">=</span><span class="token string">"ShadowCaster"</span></code></pre> </li> <li> <p>使用URP ShaderLibrary引用Core.hlsl替换内置渲染管线中的UnityCG.cginc</p> <pre><code class="prism language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">"Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"</span></span> 替换<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">"UnityCG.cginc"</span></span></code></pre> <p>其他库类似：</p> <pre><code class="prism language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">"Lighting.HLSLinc"</span></span> 替换为：<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">"Packages/com.unity.render-pipelines.universal/Shaders/LitInput.hlsl"</span></span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">"Packages/com.unity.render-pipelines.universal/Shaders/LitForwardPass.hlsl"</span></span>  阴影：<span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">"Packages/com.unity.render-pipelines.universal/Shaders/ShadowCasterPass.hlsl"</span></span></code></pre> </li> <li> <p>内置结构体、内置函数 和矩阵</p> <blockquote> <p>appdata_full 这种结构体不能用了，如何一一替换我就不举例了<br /> 内置函数 和矩阵需要查阅Packages/Universal RP/ShaderLibrary/UnityInput<br /> 内置结构体、函数需要查阅<br /> Packages/Universal RP/ShaderLibrary/Input<br /> Packages/Universal RP/ShaderLibrary/Core</p> </blockquote> </li> <li> <p>使用 TransformObjectToHClip 替换 UnityObjectToClipPos<br /> 或者改成如下写法：</p> <pre><code class="prism language-c">Varyings<span class="token function">vert</span><span class="token punctuation">(</span>Attributes IN<span class="token punctuation">)</span><span class="token punctuation">{<!-- --></span>     Varyings OUT<span class="token punctuation">;</span>       VertexPositionInputs positionInputs<span class="token operator">=</span><span class="token function">GetVertexPositionInputs</span><span class="token punctuation">(</span>IN<span class="token punctuation">.</span>positionOS<span class="token punctuation">.</span>xyz<span class="token punctuation">)</span><span class="token punctuation">;</span>     OUT<span class="token punctuation">.</span>positionCS<span class="token operator">=</span> positionInputs<span class="token punctuation">.</span>positionCS<span class="token punctuation">;</span><span class="token comment">// Or this :</span><span class="token comment">//OUT.positionCS = TransformObjectToHClip(IN.positionOS.xyz);</span>       OUT<span class="token punctuation">.</span>uv<span class="token operator">=</span><span class="token function">TRANSFORM_TEX</span><span class="token punctuation">(</span>IN<span class="token punctuation">.</span>uv<span class="token punctuation">,</span> _BaseMap<span class="token punctuation">)</span><span class="token punctuation">;</span>     OUT<span class="token punctuation">.</span>color<span class="token operator">=</span> IN<span class="token punctuation">.</span>color<span class="token punctuation">;</span><span class="token keyword">return</span> OUT<span class="token punctuation">;</span><span class="token punctuation">}</span></code></pre> <p><strong>GetVertexPositionInputs</strong> 计算不同坐标系中的位置，结果包含世界坐标系坐标，观察坐标系坐标，裁剪坐标系坐标，标准设备坐标系坐标，未使用到的坐标不会被包含到编译出的shader中，所以不会有额外的不必要的计算量。TRANSFORM_TEX 在内置渲染管线和URP中都可以用。GetVertexNormalInputs 可以将法线和切线从对象坐标系变换到世界坐标系。也可以用 TransformObjectToWorldNormal(IN.normalOS) 代替。</p> <p><code>VertexNormalInputs normalInputs = GetVertexNormalInputs(IN.normalOS, IN.tangentOS);</code></p> </li> <li> <p>在URP中纹理和采样器的定义改成如下写法：</p> <pre><code class="prism language-c"><span class="token comment">// 将_BaseMap声明为Texture2D对象</span><span class="token function">TEXTURE2D</span><span class="token punctuation">(</span>_MainTex<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">// 将_BaseMap声明为Texture2D对象</span><span class="token function">SAMPLER</span><span class="token punctuation">(</span>sampler_MainTex<span class="token punctuation">)</span><span class="token punctuation">;</span> 	 	float4<span class="token function">frag</span><span class="token punctuation">(</span>v2f i<span class="token punctuation">)</span><span class="token operator">:</span> SV_Target<span class="token punctuation">{<!-- --></span> 	    float4 col<span class="token operator">=</span><span class="token function">SAMPLE_TEXTURE2D</span><span class="token punctuation">(</span>_BaseMap<span class="token punctuation">,</span>sampler_BaseMap<span class="token punctuation">,</span> i<span class="token punctuation">.</span>texcoord<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token keyword">return</span> col<span class="token punctuation">;</span><span class="token punctuation">}</span></code></pre> </li> <li> <p>区分 multi_compile 和 shader_feature，剥离不需要的编译选项，减少shader变体。</p> <p><a href="http://www.m6000.cn/wp-content/themes/begin%20lts/inc/go.php?url=https://zhuanlan.zhihu.com/p/77043332"  rel="nofollow">https://zhuanlan.zhihu.com/p/77043332</a></p> <p><a href="http://www.m6000.cn/wp-content/themes/begin%20lts/inc/go.php?url=https://www.jianshu.com/p/8750704a2f4c"  rel="nofollow">https://www.jianshu.com/p/8750704a2f4c</a></p> </li> <li> <p>URP不支持表面着色器，URP ShaderLibrary 中处理光照计算的函数在 Lighting.hlsl中，该文件需要手动include。</p> <pre><code class="prism language-c"><span class="token comment">//这些编译指令用于接收阴影</span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile _ _MAIN_LIGHT_SHADOWS</span></span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE</span></span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile _ _SHADOWS_SOFT</span></span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">"Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"</span></span></code></pre> </li> <li> <p>当使用Lighting.hlsl支持光照和阴影，应该添加下面的编译选项，如果没有定义，ShaderLibrary会跳过一些计算。</p> <pre><code class="prism language-c"><span class="token comment">// Main Light Shadows</span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile _ _MAIN_LIGHT_SHADOWS</span></span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE</span></span><span class="token comment">// Additional Lights &amp; Shadows</span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS</span></span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile _ _ADDITIONAL_LIGHT_SHADOWS</span></span><span class="token comment">// Soft Shadows</span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile _ _SHADOWS_SOFT</span></span><span class="token comment">// Other (Mixed lighting, baked lightmaps, fog)</span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile _ _MIXED_LIGHTING_SUBTRACTIVE</span></span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile _ DIRLIGHTMAP_COMBINED</span></span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile _ LIGHTMAP_ON</span></span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile_fog</span></span><span class="token comment">// Supporting shadows will also require passing a positionWS,</span><span class="token comment">// and shadowCoord into the fragment shader, again you'll have</span><span class="token comment">// to see the Lighting sections for actual examples.</span></code></pre> <p>接受投影：</p> <pre><code class="prism language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">include</span><span class="token string">"Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"</span></span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile _ _MAIN_LIGHT_SHADOWS</span></span><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE</span></span>  float4<span class="token function">frag</span><span class="token punctuation">(</span>v2f i<span class="token punctuation">)</span><span class="token operator">:</span> SV_Target<span class="token punctuation">{<!-- --></span>    float4 shadowCoords<span class="token operator">=</span><span class="token function">TransformWorldToShadowCoord</span><span class="token punctuation">(</span>i<span class="token punctuation">.</span>worldPos<span class="token punctuation">)</span><span class="token punctuation">;</span>    Light mainLight<span class="token operator">=</span><span class="token function">GetMainLight</span><span class="token punctuation">(</span>shadowCoords<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">//阴影实时遮挡</span>    half shadow<span class="token operator">=</span> mainLight<span class="token punctuation">.</span>shadowAttenuation<span class="token punctuation">;</span><span class="token keyword">return</span> shadow<span class="token punctuation">;</span><span class="token punctuation">}</span></code></pre> <pre><code>被投影：</code></pre> <pre><code class="prism language-c"><span class="token comment">//新加一个pass</span>    UsePass<span class="token string">"Universal Render Pipeline/Lit/ShadowCaster"</span></code></pre> </li> <li> <p>为了处理雾，使用ComputeFogFactor 和 MixFog 函数。</p> <pre><code class="prism language-c"><span class="token macro property"><span class="token directive-hash">#</span><span class="token directive keyword">pragma</span><span class="token expression">multi_compile_fog</span></span><span class="token keyword">struct</span><span class="token class-name">Varyings</span><span class="token punctuation">{<!-- --></span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>     half fogFactor<span class="token operator">:</span> TEXCOORD5<span class="token punctuation">;</span><span class="token comment">// or whatever unused texcoord</span><span class="token comment">// if none are unused pack it together with a half3 or something</span><span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token comment">// In the vertex shader :</span> half fogFactor<span class="token operator">=</span><span class="token function">ComputeFogFactor</span><span class="token punctuation">(</span>positionInputs<span class="token punctuation">.</span>positionCS<span class="token punctuation">.</span>z<span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token comment">// In the fragment, just before returning the color :</span> color<span class="token punctuation">.</span>rgb<span class="token operator">=</span><span class="token function">MixFog</span><span class="token punctuation">(</span>color<span class="token punctuation">.</span>rgb<span class="token punctuation">,</span> IN<span class="token punctuation">.</span>fogFactor<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre> </li> </ol> </h1> <p>在URP中是使用的<code>single-pass</code>前向渲染，也就是单Pass。<br /> 转URP的时候我们会发现 以前多Pass的shader会异常，只会渲染第一个Pass。</p> <p>如果我们确实需要多Pass怎么办？</p> <p>我们可以通过设置第一个Pass的LightMode为：<code>UniversalForward</code>就行了。</p> <p><strong>例如：</strong></p> <pre><code class="prism language-c">Shader<span class="token string">"lcl/Shader"</span><span class="token punctuation">{<!-- --></span>       	Properties<span class="token punctuation">{<!-- --></span><span class="token function">_Color</span><span class="token punctuation">(</span><span class="token string">"Color"</span><span class="token punctuation">,</span> Color<span class="token punctuation">)</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token function">_MainTex</span><span class="token punctuation">(</span><span class="token string">"Albedo"</span><span class="token punctuation">,</span><span class="token number">2</span>D<span class="token punctuation">)</span><span class="token operator">=</span><span class="token string">"white"</span><span class="token punctuation">{<!-- --></span><span class="token punctuation">}</span><span class="token punctuation">}</span>     	SubShader<span class="token punctuation">{<!-- --></span> 		LOD<span class="token number">100</span> 		Lighting Off 		Pass<span class="token punctuation">{<!-- --></span>  			Tags<span class="token punctuation">{<!-- --></span><span class="token string">"LightMode"</span><span class="token operator">=</span><span class="token string">"UniversalForward"</span><span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span> 		Pass<span class="token punctuation">{<!-- --></span>   			Tags<span class="token punctuation">{<!-- --></span><span class="token string">"LightMode"</span><span class="token operator">=</span><span class="token string">"SRPDefaultUnlit"</span><span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">}</span><span class="token punctuation">}</span></code></pre> <p>但是不推荐多Pass渲染，因为会打断 SRP Batcher，使DrawCall增加。（当然 如果没使用SRP Batcher则不影响）</p> <p>具体什么是SRP Batcher可以参考这里</p> <p><a href="http://www.m6000.cn/wp-content/themes/begin%20lts/inc/go.php?url=https://zhuanlan.zhihu.com/p/165574008"  rel="nofollow">https://zhuanlan.zhihu.com/p/165574008</a><br /><a href="http://www.m6000.cn/wp-content/themes/begin%20lts/inc/go.php?url=https://zhuanlan.zhihu.com/p/165388825"  rel="nofollow">https://zhuanlan.zhihu.com/p/165388825</a></p> <p>·如果确实需要可以通过<code>RendererFeatures</code>实现多Pass效果</p> </h1> <h2><a id="_SRP_Batcher_230" rel="nofollow"></a>首先需要勾选 SRP Batcher。</h2> <p><img decoding="async" src="http://img.555519.xyz/uploads3/20220722/8e83a942f44552c02a321fb77096a29b.jpg" alt="Unity 内置渲染管线转URP"></p> <h2><a id="shader_233" rel="nofollow"></a>shader代码修改：</h2> <p>Shader中所有的内置属性例如<code>unity_ObjectToWorld</code>，<code>unity_SHAr</code>等，都要在一个名为<code>UnityPerDraw</code>的CBUFFER中声明;<br /> 所有的Material属性都要在一个名为<code>UnityPerMaterial</code>的CBUFFER中声明。</p> <pre><code class="prism language-c"><span class="token function">CBUFFER_START</span><span class="token punctuation">(</span>UnityPerMaterial<span class="token punctuation">)</span><span class="token comment">//Properties</span> CBUFFER_END<span class="token function">CBUFFER_START</span><span class="token punctuation">(</span>UnityPerDraw<span class="token punctuation">)</span>     float4x4 unity_ObjectToWorld<span class="token punctuation">;</span> CBUFFER_END</code></pre> <p><strong>例如：</strong></p> <pre><code class="prism language-c">Properties<span class="token punctuation">{<!-- --></span><span class="token function">_Color1</span><span class="token punctuation">(</span><span class="token string">"Color 1"</span><span class="token punctuation">,</span> Color<span class="token punctuation">)</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token function">_Color2</span><span class="token punctuation">(</span><span class="token string">"Color 2"</span><span class="token punctuation">,</span> Color<span class="token punctuation">)</span><span class="token operator">=</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">}</span><span class="token comment">//原本的写法</span><span class="token comment">//float4 _Color1;</span><span class="token comment">//float4 _Color2;</span><span class="token comment">//兼容SRP Batcher的写法</span><span class="token function">CBUFFER_START</span><span class="token punctuation">(</span>UnityPerMaterial<span class="token punctuation">)</span> float4 _Color1<span class="token punctuation">;</span> float4 _Color2<span class="token punctuation">;</span> CBUFFER_END<span class="token function">CBUFFER_START</span><span class="token punctuation">(</span>UnityPerDraw<span class="token punctuation">)</span>     float4x4 unity_ObjectToWorld<span class="token punctuation">;</span> CBUFFER_END</code></pre> <p>如果shader报错：<font color="#ff0000">Shader error in ‘Unlit/SampleUnlit’: redefinition of ‘unity_ObjectToWorld’</font>，重复定义，如果自己的shader代码里面没有，那么就是引入了其他的库文件里面包含了该变量。</p> <p>最后，我们看Shader的面板，如果出现了类似的提示：</p> <p><img decoding="async" src="http://img.555519.xyz/uploads3/20220722/11e444d1fa9b5ab2b230402a2a465f57.jpg" alt="Unity 内置渲染管线转URP"></p> <p>则表示 该属性 未包含在 CBUFFER_START(UnityPerMaterial) 里面。</p> <p><strong>注意：如果Shader使用了多Pass渲染，则会打断 SRP Batcher。</strong></p> </h1> <p><a href="http://www.m6000.cn/wp-content/themes/begin%20lts/inc/go.php?url=https://zhuanlan.zhihu.com/p/254810253"  rel="nofollow">https://zhuanlan.zhihu.com/p/254810253</a></p> <p><a href="http://www.m6000.cn/wp-content/themes/begin%20lts/inc/go.php?url=https://blog.csdn.net/wannaconquer/article/details/114092927"  rel="nofollow">https://blog.csdn.net/wannaconquer/article/details/114092927</a></p> </div> 			                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-12 mt-5">
+                                        <p>上一个：<a href="/news/article-102600.htm">python 在sql语句中使用%s,%d,%f</a></p>
+                                    </div>
+                                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">热门文章</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="p-0 x-0" style="list-style: none;margin: 0;padding: 0;">
+                        <li class="py-2"><a href="/news/article-80001.htm" title="动物疫苗研究进展报告怎么写（动物疫苗发展前景）">动物疫苗研究进展报告怎么写（动物疫苗发展前景）</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-4-16-free-subscribe-node.htm" title="香港VPN | 4月16日21M/S|免费SSR/V2ray/Shadowrocket/Clash免费节点订阅分享">香港VPN | 4月16日21M/S|免费SSR/V2ray/Shadowrocket/Clash免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-3-24-free-v2ray.htm" title="香港VPN | 3月24日21.7M/S|免费V2ray/Shadowrocket/Clash/SSR免费节点订阅分享">香港VPN | 3月24日21.7M/S|免费V2ray/Shadowrocket/Clash/SSR免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-4-3-free-subscribe-node.htm" title="香港VPN | 4月3日21.7M/S|免费V2ray/SSR/Shadowrocket/Clash免费节点订阅分享">香港VPN | 4月3日21.7M/S|免费V2ray/SSR/Shadowrocket/Clash免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/news/article-101048.htm" title="小白开宠物店需要准备什么东西（开宠物店需要做什么）">小白开宠物店需要准备什么东西（开宠物店需要做什么）</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-3-9-free-subscribe-node.htm" title="香港VPN | 3月9日23M/S|免费V2ray/SSR/Clash/Shadowrocket免费节点订阅分享">香港VPN | 3月9日23M/S|免费V2ray/SSR/Clash/Shadowrocket免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-3-21-free-high-speed-nodes.htm" title="香港VPN | 3月21日18.9M/S|免费V2ray/Shadowrocket/Clash/SSR免费节点订阅分享">香港VPN | 3月21日18.9M/S|免费V2ray/Shadowrocket/Clash/SSR免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/news/article-80671.htm" title="宠物领养规定标准（宠物领养百度百科）">宠物领养规定标准（宠物领养百度百科）</a></li>
+                        <li class="py-2"><a href="/news/article-73868.htm" title="动物医院科室布局 动物医院科室布局原则">动物医院科室布局 动物医院科室布局原则</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-3-5-free-node-subscribe-links.htm" title="香港VPN | 3月5日19.6M/S|免费V2ray/SSR/Clash/Shadowrocket免费节点订阅分享">香港VPN | 3月5日19.6M/S|免费V2ray/SSR/Clash/Shadowrocket免费节点订阅分享</a></li>
+                    </ul>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">归纳</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="p-0 x-0" style="list-style: none;margin: 0;padding: 0;">
+                        <li class="py-2">
+                <h4><span class="badge" style="float: right;">69</span> <a href="/date/2025-04/" title="2025-04 归档">2025-04</a></h4>
+            </li>
+                        <li class="py-2">
+                <h4><span class="badge" style="float: right;">90</span> <a href="/date/2025-03/" title="2025-03 归档">2025-03</a></h4>
+            </li>
+                    </ul>
+    </div>
+</div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+        <section class="footer-2">
+        <footer class="container footer-2-container  d-flex align-items-center">
+            <div class="col-md-4 d-flex justify-content-center justify-content-md-start">
+                <p class="footer2-paragraph">© All rights reserved.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:facebook-fill"></iconify-icon>
+                </a>
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:twitter-fill"></iconify-icon>
+                </a>
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:instagram-fill"></iconify-icon>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <p class="footer2-paragraph d-flex justify-content-center justify-content-md-end">
+                                        <p>
+                                                <a href="/">首页</a> |
+                                                <a href="/free-nodes/">免费节点</a> |
+                                                <a href="/paid-subscribe/">推荐机场</a> |
+                                                <a href="/news/">新闻资讯</a> |
+                                                <a href="/client.htm">客户端</a> |
+                                                <a href="/about-us.htm">关于我们</a> |
+                        <a href="/disclaimer.htm">免责申明</a> |
+                        <a href="/privacy.htm">隐私申明</a> |
+                        <a href="/sitemap.xml">网站地图</a>
+                    </p>
+                    香港VPN 机场订阅节点官网 版权所有 Powered by WordPress
+                </p>
+            </div>
+        </footer>
+    </section>
+    <!-- Scripts  Starts -->
+    <script src="/assets/website/js/frontend/vlessnode/jquery-3.5.1.min.js"></script>
+    <script src="/assets/website/js/frontend/vlessnode/plugins.js"></script>
+    <script src="/assets/website/js/frontend/vlessnode/script.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.4.1/swiper-bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script src="https://www.freeclashnode.com/assets/js/frontend/invite-url.js"></script>
+    <script src="/assets/website/js/frontend/G.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xml:lang="zh-CN" lang="zh-CN">
+
+<head>
+        <link rel="canonical" href="https://hongkongvpn.github.io/news/article-100414.htm" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hbase(四)：Hbase原理</title>
+        <meta name="description" content="Hbase(四)：Hbase原理 Hbase的工作方式 region的分裂和结构 hbase表中的数据按照行键的字典顺序排序 hbase表中的数据按照行的的方向切分为多个region 最开始只有一个r" />
+        <link rel="icon" href="/assets/website/img/vlessnode/favicon.ico" type="image/x-icon"/>
+
+    <meta name="author" content="香港VPN 机场订阅节点官网">
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://hongkongvpn.github.io/news/article-100414.htm" />
+    <meta property="og:site_name" content="香港VPN 机场订阅节点官网" />
+    <meta property="og:title" content="Hbase(四)：Hbase原理" />
+    <meta property="og:image" content="https://hongkongvpn.github.io/uploads/20240826/fb7bcec0c034fe01b33aa6430009136e.webp" />
+        <meta property="og:release_date" content="2025-04-20T09:05:10" />
+    <meta property="og:updated_time" content="2025-04-20T09:05:10" />
+        <meta property="og:description" content="Hbase(四)：Hbase原理 Hbase的工作方式 region的分裂和结构 hbase表中的数据按照行键的字典顺序排序 hbase表中的数据按照行的的方向切分为多个region 最开始只有一个r" />
+        
+    <meta name="applicable-device" content="pc,mobile" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta name="robots" content="max-image-preview:large" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Hbase(四)：Hbase原理">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="dns-prefetch" href="https:/www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googleadservices.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://cm.g.doubleclick.net">
+    
+    <link rel="stylesheet" type="text/css" href="/assets/website/css/vlessnode/vendor.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.4.1/swiper-bundle.min.css" />
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/website/css/vlessnode/style.css">
+    <link rel="stylesheet" href="/assets/website/css/G.css" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- script ================================================== -->
+    <script src="/assets/website/js/frontend/vlessnode/modernizr.js"></script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MG83FTMJCH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MG83FTMJCH');
+</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3332997411212854"
+     crossorigin="anonymous"></script>
+</head>
+
+<body data-page="detail">
+        <!-- Navigation Section Starts -->
+    <section id="navigation-bar" class="navigation position-fixed">
+        <nav id="navbar-example2" class="navbar navbar-expand-lg ">
+            <div class="navigation container-fluid d-flex flex-wrap align-items-center my-2 pe-4 ps-5 ">
+                <div class="col-md-3 brand-logo">
+                    <a href="/" class="d-inline-flex link-body-emphasis">
+                                        <span>香港VPN</span>
+                                        </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbar2Label">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav align-items-center flex-grow-1">
+                                                        <li class="nav-list mx-3">
+                                <a href="/" class="nav-link px-2">
+                                    <h5> 首页 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/free-nodes/" class="nav-link px-2">
+                                    <h5> 免费节点 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/paid-subscribe/" class="nav-link px-2">
+                                    <h5> 推荐机场 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/news/" class="nav-link px-2">
+                                    <h5> 新闻资讯 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/client.htm" class="nav-link px-2">
+                                    <h5> 客户端 </h5>
+                                </a>
+                            </li>
+                                                    </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </section>
+    <!-- Hero Section Starts -->
+    <section id="hero">
+        <div id="resources" class="hero container py-5 my-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                </div>
+                <div class="col-lg-6">
+                    <div class="breadcrumb ">
+                        <span class="item">
+                            <a href="/">
+                                <h5> <u>首页</u> </h5>
+                            </a>
+                        </span>
+                        &nbsp;<h5>/</h5> &nbsp; 
+                        <span class="item">
+                            <a href="/news/">
+                                <h5> <u>新闻资讯</u> </h5>
+                            </a>
+                        </span>
+                        &nbsp;<h5>/</h5> &nbsp; 
+
+                        <span class="item">
+                            <h5>正文</h5>
+                        </span>
+                    </div>
+                    <h1 class=" lh-1 mb-3">Hbase(四)：Hbase原理</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Feature Section Starts -->
+    <section id="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                                    <input type="hidden" id="share-website-info" data-name="Clash Meta免费节点订阅站" data-url="https://clash-meta.github.io">
+                <div class="xcblog-blog-detail">
+                      				  				  				<div id="content_views" class="markdown_views prism-atom-one-dark"> <h2><a id="HbaseHbase_0" rel="nofollow"></a>Hbase(四)：Hbase原理</h2> <h3><a id="Hbase_2" rel="nofollow"></a>Hbase的工作方式</h3> <h4><a id="region_4" rel="nofollow"></a>region的分裂和结构</h4> <p>hbase表中的数据按照行键的字典顺序排序<br /> hbase表中的数据按照行的的方向切分为多个region<br /> 最开始只有一个region 随着数据量的增加 产生分裂 这个过程不停的进行 一个表可能对应一个或多个region<br /> region是hbase表分布式存储和负载均衡的基本单元 一个表的多个region可能分布在多台HRegionServer上<br /> region是分布式存储的基本单元 但不是存储的基本单元 内部还具有结构<br /> 一个region由多个Store来组成<br /> 有几个store取决于表的列族的数量 一个列族对应一个store 之所以这么设计 是因为 一个列族中的数据往往数据很类似 方便与进行压缩 节省存储空间<br /> 表的一个列族对应一个store store的数量由表中列族的数量来决定<br /> 一个store由一个memstore 和零个或多个storefile组成<br /> storefile其实就是hdfs中的hfile 只能写入不能修改 所以hbase写入数据到hdfs的过程其实是不断追加hfile的过程</p> <h5><a id="Hbase_17" rel="nofollow"></a>Hbase写入数据</h5> <p>数据写入hbase时 先在hlog中记录日志 再修改memstore 直接返回成功 这样 不需要真正等待写入hdfs的过程 所以很快<br /> memstore 内存有限 当写入数量达到一定的阈值的时候 就会创建一个新的memstore继续工作 而旧的memstore 会用一个单独的线程 写出到storefile中 最终清空旧的memstore 并在zookeeper中记录最后写出数据时间的redo point信息<br /> 由于storefile 不能修改 所以数据的更新其实是不停创建新的storefile的过程<br /> 这样多个storefile中可能存在对同一个数据的多个版本 其中旧的版本其实是垃圾数据 时间一长 垃圾数据就可能很多 浪费磁盘空间<br /> 所以当达到一定的阈值的时候 会自动合并storefile 在合并的过程中将垃圾数据清理<br /> 而当合并出来的文件达到一定程度时 再从新进行切分 防止文件过大<br /> 虽然看起来是小变大再变小 但是经过这个过程垃圾数据就被清理掉了</p> <p>所以store中的数据 其实是memstore和storefile来组成的<br /> 而memstore由于是内存中的数据 一旦断电就会丢失<br /> 为了解决可能的意外造成数据丢失的问题 hbase在整个hregionserver中 通过记录hlog 来保存了所有数据操作的记录<br /> 当hbase启动时 会检查zookeeper中的redo point信息 从hlog中恢复 这个时间点之后的数据 解决内存数据可能丢失的问题</p> <p>hlog整个hregionServer中只有一个 所有这台机器中的所有HRegion都共用这个文件 这样整个机器的磁盘性能都可以为这一个文件提供支持 提升文件的读写效率<br /> hlog文件最终对应的是hdfs中的文件 也是分布式存储的 保证了日志文件的可靠性</p> <h5><a id="Hbase_35" rel="nofollow"></a>Hbase读取数据</h5> <p>hfile的内部由以下部分组成：<br /> Data Blocks 段–保存表中的数据，这部分可以被压缩<br /> Meta Blocks 段 (可选的)–保存用户自定义的kv对，可以被压缩。<br /> File Info 段–Hfile的元信息，不被压缩，用户也可以在这一部分添加自己的元信息。<br /> Data Block Index 段–Data Block的索引。每条索引的key是被索引的block的第一条记录的key。<br /> Meta Block Index段 (可选的)–Meta Block的索引。<br /> Trailer–这一段是定长的。保存了每一段的偏移量，读取一个HFile时，会首先 读取Trailer，Trailer保存了每个段的起始位置(段的Magic Number用来做安全check)，然后，DataBlock Index会被读取到内存中，这样，当检索某个key时，不需要扫描整个HFile，而只需从内存中找到key所在的block，通过一次磁盘io将整个 block读取到内存中，再找到需要的key。DataBlock Index采用LRU机制淘汰。</p> <p> HFile的Data Block，Meta Block通常采用压缩方式存储，压缩之后可以大大减少网络IO和磁盘IO，随之而来的开销当然是需要花费cpu进行压缩和解压缩。</p> <p>在查询数据时，先查找内存，如果内存中有当前键对应的数据，获取数据直接返回。如果没有在内存中找到数据，就去查找region对应的hfile，注意不是将所有hfile中的数据恢复到内存，而是查找每个hfile的Trailer，通过trailer找到Data Block Index，如果在这里发现了要找的数据，通过索引找到Data Blocks中对应的Data Block，将Data Block数据送回内存组装，最终多个hfile中获取到的数据 合并后 返回最新的。</p> <p>由于hbase中的数据天然排序 再加上索引 整个查询也可以非常的快</p> <h5><a id="Hbaseregion_51" rel="nofollow"></a>Hbase中的region的寻址</h5> <p>在hbase中有一个hbase:meta表，其中存放了 表和region和regionSever 之间的对应关系信息，这个表很特别，只有一个region<br /> 并且这个meta表的这个region的位置信息被存放在了zookeeper的meta-region-server节点下<br /> 在客户端从hbase中查找数据时，需要先联系zookeeper找到meta表对应的region的位置，连接这个位置读取到meta表中的信息，才能知道要查询的表 和 表的region和region对应的regionServer的信息<br /> 再根据这些信息连接真正要查询的表 对应的region的regionServer进行读取<br /> 这个过程就称之为region的寻址过程。<br /> 这样的寻址过程是相当耗费时间的，为了提高性能，客户端通常会缓存之前已经知道的region寻址信息，当客户端再次读取同一个表中的数据时，可以通过本地缓存的region地址信息 直接定位读取，提高效率。</p> <h5><a id="_60" rel="nofollow"></a>存储系统的三种结构</h5> <h6><a id="hash_62" rel="nofollow"></a>hash存储</h6> <p> 例如HashMap<br />  优点 写效率高 读效率高 支持增删改随机读<br />  缺点 顺序信息会丢失</p> <h6><a id="B_B_B_B_68" rel="nofollow"></a>B树 B+树 B-树 B*树</h6> <p> 例如MySql<br />  优点 写效率高 读效率高 顺序信息不会丢失<br />  缺点 当数据量很大 性能大幅下降</p> <h6><a id="LSM__LogStructured_Merge_Tree_74" rel="nofollow"></a>LSM树 - Log-Structured Merge Tree</h6> <p> 例如HBase<br />  支持增、删、读、改、顺序扫描操作<br />  牺牲了一部分读的性能换取了高效写入能力</p> <h5><a id="Hbase_80" rel="nofollow"></a>Hbase系统架构</h5> <p>hbase中的老大叫hmaster 小弟叫hregionServer<br /> 客户端叫Client<br /> Zookeepr为hbase提供集群协调</p> <p>client<br /> 访问hbase 保留一些缓存信息提升效率</p> <p>zookeeper<br /> 保证任何时候集群只有一个HMaster<br /> 监控regionServer的状态 将其上线下线信息通知mater<br /> 存储所有Region的寻址地址<br /> 存储hbase的元数据信息 包括 有哪些表 有哪些列族等等</p> <p>Mater<br /> 为RegionServer分配Region<br /> 为RegionServer进行负载的均衡<br /> GFS上的垃圾回收<br /> 处理对Schema数据的更新请求</p> <p>RegionServer<br /> 维护Master分配给它的region，处理对这些region的IO请求<br /> 负责切分在运行过程中变得过大的region</p> <h5><a id="Hbase_105" rel="nofollow"></a>为什么Hbase可以很快</h5> <p>从逻辑结构上来说：<br /> 表按照行键进行了排序，所以查询时可以很快定位<br /> 数据按照行键切分为多个HRegion，分布在多个RegionServer中，查询大量数据时，多个RegionServer可以一起工作，从而提高速度</p> <p>从物理结构上来说：<br /> HRegion是存活在RegionServer的内存中的，读写会非常的高效<br /> 还有HFile的支持保证大量的数据可以持久化的保存<br /> 数据最终落地到HDFS中，分布式的存储，保证数据段可靠性和可扩展性</p> <h5><a id="Hbase_116" rel="nofollow"></a>为什么Hbase可以存储很多数据</h5> <p> 基于hdfs，所以支持可扩展性，可以通过增加大量的廉价的硬件提高存储容量<br />  按列存储，空的数据不占用空间，当存储稀疏数据时，不会浪费空间<br />  按例存储，同一列的数据存放在一起，而同一列的数据一般都是同样的类型的内容相似的数据，可以实现非常高效的压缩，节省空间</p> <h5><a id="Hbase_122" rel="nofollow"></a>为什么Hbase的数据是可靠的</h5> <p> 基于hdfs，由hdfs的可靠性保证了hbase的可靠性–即数据可以有多个备份<br />  利用zookeeper实现了HA，即使某一台机器挂掉另外的机器也可以很快的替换它</p> <h5><a id="HbaseHive_127" rel="nofollow"></a>Hbase与Hive,以及传统关系型数据库的比较</h5> <p>比起传统的关系型数据库，可以存储半结构化非结构化的数据，可以存储和处理更大级别的数据，提供高效的查询，对于稀疏数据的处理更好，具有更好的横向扩展性，免费开源性价比很高。但是不能支持非常好的事务特性，只支持行级的事务。只能通过行键来查询，表设计时难度更高。而mysql用来存储结构化的数据提供更好的事务控制。<br /> 比起hive，hive只是在mapreduce上包了一层壳，本质上还是离线数据的处理的工具，实时查询性能有限，本质上是一个基于hadoop的数据仓库工具，不能支持行级别的新增修改和删除。hbase可以提供实时的数据的处理能力，适用于在线数据查询处理，本质上是一种数据库工具。</p> </div> 			                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-12 mt-5">
+                                        <p>上一个：<a href="/news/article-100413.htm">springboot调整请求头大小_解决Springboot get请求是参数过长的情况</a></p>
+                                        <p>下一个：<a href="/news/article-101048.htm">小白开宠物店需要准备什么东西（开宠物店需要做什么）</a></p>
+                                    </div>
+                                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">热门文章</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="p-0 x-0" style="list-style: none;margin: 0;padding: 0;">
+                        <li class="py-2"><a href="/news/article-71878.htm" title="python连接MySQL数据库并读取数据库中的数据表存入list中">python连接MySQL数据库并读取数据库中的数据表存入list中</a></li>
+                        <li class="py-2"><a href="/news/article-95236.htm" title="猫是招鬼还是辟邪的蓝猫（猫是招鬼还是辟邪的蓝猫呢）">猫是招鬼还是辟邪的蓝猫（猫是招鬼还是辟邪的蓝猫呢）</a></li>
+                        <li class="py-2"><a href="/news/article-77259.htm" title="SpringBoot之HandlerInterceptor拦截器的使用">SpringBoot之HandlerInterceptor拦截器的使用</a></li>
+                        <li class="py-2"><a href="/news/article-90013.htm" title="动物疫苗前景分析（动物疫苗现状）">动物疫苗前景分析（动物疫苗现状）</a></li>
+                        <li class="py-2"><a href="/news/article-102600.htm" title="python 在sql语句中使用%s,%d,%f">python 在sql语句中使用%s,%d,%f</a></li>
+                        <li class="py-2"><a href="/news/article-74544.htm" title="函数的返回值存储问题">函数的返回值存储问题</a></li>
+                        <li class="py-2"><a href="/news/article-75904.htm" title="动物防疫疫苗管理要点有哪些（动物疫苗的管理方法）">动物防疫疫苗管理要点有哪些（动物疫苗的管理方法）</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-4-20-free-v2ray-subscribe.htm" title="香港VPN | 4月20日20.6M/S|免费V2ray/Shadowrocket/Clash/SSR免费节点订阅分享">香港VPN | 4月20日20.6M/S|免费V2ray/Shadowrocket/Clash/SSR免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/news/article-85666.htm" title="成都动物免疫中心（成都动物疫苗接种点）">成都动物免疫中心（成都动物疫苗接种点）</a></li>
+                        <li class="py-2"><a href="/news/article-67346.htm" title="济南免费领养宠物狗的地方（济南哪里可以免费领养狗狗）">济南免费领养宠物狗的地方（济南哪里可以免费领养狗狗）</a></li>
+                    </ul>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">归纳</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="p-0 x-0" style="list-style: none;margin: 0;padding: 0;">
+                        <li class="py-2">
+                <h4><span class="badge" style="float: right;">69</span> <a href="/date/2025-04/" title="2025-04 归档">2025-04</a></h4>
+            </li>
+                        <li class="py-2">
+                <h4><span class="badge" style="float: right;">90</span> <a href="/date/2025-03/" title="2025-03 归档">2025-03</a></h4>
+            </li>
+                    </ul>
+    </div>
+</div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+        <section class="footer-2">
+        <footer class="container footer-2-container  d-flex align-items-center">
+            <div class="col-md-4 d-flex justify-content-center justify-content-md-start">
+                <p class="footer2-paragraph">© All rights reserved.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:facebook-fill"></iconify-icon>
+                </a>
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:twitter-fill"></iconify-icon>
+                </a>
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:instagram-fill"></iconify-icon>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <p class="footer2-paragraph d-flex justify-content-center justify-content-md-end">
+                                        <p>
+                                                <a href="/">首页</a> |
+                                                <a href="/free-nodes/">免费节点</a> |
+                                                <a href="/paid-subscribe/">推荐机场</a> |
+                                                <a href="/news/">新闻资讯</a> |
+                                                <a href="/client.htm">客户端</a> |
+                                                <a href="/about-us.htm">关于我们</a> |
+                        <a href="/disclaimer.htm">免责申明</a> |
+                        <a href="/privacy.htm">隐私申明</a> |
+                        <a href="/sitemap.xml">网站地图</a>
+                    </p>
+                    香港VPN 机场订阅节点官网 版权所有 Powered by WordPress
+                </p>
+            </div>
+        </footer>
+    </section>
+    <!-- Scripts  Starts -->
+    <script src="/assets/website/js/frontend/vlessnode/jquery-3.5.1.min.js"></script>
+    <script src="/assets/website/js/frontend/vlessnode/plugins.js"></script>
+    <script src="/assets/website/js/frontend/vlessnode/script.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.4.1/swiper-bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script src="https://www.freeclashnode.com/assets/js/frontend/invite-url.js"></script>
+    <script src="/assets/website/js/frontend/G.js"></script>
+</body>
+
+</html>

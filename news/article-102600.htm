@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xml:lang="zh-CN" lang="zh-CN">
+
+<head>
+        <link rel="canonical" href="https://hongkongvpn.github.io/news/article-102600.htm" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>python 在sql语句中使用%s,%d,%f</title>
+        <meta name="description" content="python连接数据库执行增删查改 mysql数据库&nbsp;import pymysql&nbsp; postgresql数据库&nbsp;import psycopg2 普通含%的python语" />
+        <link rel="icon" href="/assets/website/img/vlessnode/favicon.ico" type="image/x-icon"/>
+
+    <meta name="author" content="香港VPN 机场订阅节点官网">
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://hongkongvpn.github.io/news/article-102600.htm" />
+    <meta property="og:site_name" content="香港VPN 机场订阅节点官网" />
+    <meta property="og:title" content="python 在sql语句中使用%s,%d,%f" />
+    <meta property="og:image" content="https://hongkongvpn.github.io/uploads/20240826/2668c7dad27528a8b9076ef30035641a.webp" />
+        <meta property="og:release_date" content="2025-04-23T08:44:26" />
+    <meta property="og:updated_time" content="2025-04-23T08:44:26" />
+        <meta property="og:description" content="python连接数据库执行增删查改 mysql数据库&nbsp;import pymysql&nbsp; postgresql数据库&nbsp;import psycopg2 普通含%的python语" />
+        
+    <meta name="applicable-device" content="pc,mobile" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta name="robots" content="max-image-preview:large" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="python 在sql语句中使用%s,%d,%f">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="dns-prefetch" href="https:/www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googleadservices.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://cm.g.doubleclick.net">
+    
+    <link rel="stylesheet" type="text/css" href="/assets/website/css/vlessnode/vendor.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.4.1/swiper-bundle.min.css" />
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/website/css/vlessnode/style.css">
+    <link rel="stylesheet" href="/assets/website/css/G.css" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- script ================================================== -->
+    <script src="/assets/website/js/frontend/vlessnode/modernizr.js"></script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MG83FTMJCH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MG83FTMJCH');
+</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3332997411212854"
+     crossorigin="anonymous"></script>
+</head>
+
+<body data-page="detail">
+        <!-- Navigation Section Starts -->
+    <section id="navigation-bar" class="navigation position-fixed">
+        <nav id="navbar-example2" class="navbar navbar-expand-lg ">
+            <div class="navigation container-fluid d-flex flex-wrap align-items-center my-2 pe-4 ps-5 ">
+                <div class="col-md-3 brand-logo">
+                    <a href="/" class="d-inline-flex link-body-emphasis">
+                                        <span>香港VPN</span>
+                                        </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbar2Label">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav align-items-center flex-grow-1">
+                                                        <li class="nav-list mx-3">
+                                <a href="/" class="nav-link px-2">
+                                    <h5> 首页 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/free-nodes/" class="nav-link px-2">
+                                    <h5> 免费节点 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/paid-subscribe/" class="nav-link px-2">
+                                    <h5> 推荐机场 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/news/" class="nav-link px-2">
+                                    <h5> 新闻资讯 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/client.htm" class="nav-link px-2">
+                                    <h5> 客户端 </h5>
+                                </a>
+                            </li>
+                                                    </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </section>
+    <!-- Hero Section Starts -->
+    <section id="hero">
+        <div id="resources" class="hero container py-5 my-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                </div>
+                <div class="col-lg-6">
+                    <div class="breadcrumb ">
+                        <span class="item">
+                            <a href="/">
+                                <h5> <u>首页</u> </h5>
+                            </a>
+                        </span>
+                        &nbsp;<h5>/</h5> &nbsp; 
+                        <span class="item">
+                            <a href="/news/">
+                                <h5> <u>新闻资讯</u> </h5>
+                            </a>
+                        </span>
+                        &nbsp;<h5>/</h5> &nbsp; 
+
+                        <span class="item">
+                            <h5>正文</h5>
+                        </span>
+                    </div>
+                    <h1 class=" lh-1 mb-3">python 在sql语句中使用%s,%d,%f</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Feature Section Starts -->
+    <section id="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                                    <input type="hidden" id="share-website-info" data-name="Clash Meta免费节点订阅站" data-url="https://clash-meta.github.io">
+                <div class="xcblog-blog-detail">
+                      				  				  				<div id="content_views" class="htmledit_views"> <p>python连接数据库执行增删查改</p> <p>mysql数据库&nbsp;import pymysql&nbsp;</p> <p>postgresql数据库&nbsp;import psycopg2</p> <p>普通含%的python语句</p> <p><img decoding="async" alt="" height="40" src="http://img.555519.xyz/uploads/20221228/6944aaa70f268b2c9334a9661950a4f6.jpg"></p> <p><img decoding="async" alt="" height="44" src="http://img.555519.xyz/uploads/20221228/dccf31481756e3e2c2b9210789297e23.jpg">&nbsp;</p> <p><img decoding="async" alt="" height="39" src="http://img.555519.xyz/uploads/20221228/e935958cf68e07662f108d2606bf1128.jpg">&nbsp;</p> <p>sql语句中</p> <p><img loading="lazy" decoding="async" alt="" height="23" src="http://img.555519.xyz/uploads/20221228/9d1c9dd440e2d79c79962e32edd06cf2.jpg">&nbsp;</p> <p>普通sql语句 select * from tables where tablename = 'table_name' ,所以这里该加的引号还是要加&nbsp;</p> <p>不加的情况</p> <p><img loading="lazy" decoding="async" alt="" height="24" src="http://img.555519.xyz/uploads/20221228/4c373c3c16edfa62f616f626cf27e1ce.jpg"></p> <p>翻页的情况</p> <p><img loading="lazy" decoding="async" alt="" height="38" src="http://img.555519.xyz/uploads/20221228/51af764875170e0b9de5e9d63b0d55f0.jpg">&nbsp;like的情况</p> <p><img loading="lazy" decoding="async" alt="" height="36" src="http://img.555519.xyz/uploads/20221228/114601953328b0520676329a4c57b3dc.jpg"></p> <p>因为普通sql语句是 where 列名 like '4301%' 这里需要多加一个%防止转义&nbsp;</p> </p></div> 			                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-12 mt-5">
+                                        <p>上一个：<a href="/news/article-101805.htm">spring security 基本介绍</a></p>
+                                        <p>下一个：<a href="/news/article-102601.htm">Unity 内置渲染管线转URP</a></p>
+                                    </div>
+                                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">热门文章</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="p-0 x-0" style="list-style: none;margin: 0;padding: 0;">
+                        <li class="py-2"><a href="/news/article-96718.htm" title="串联字符串的Java程序。">串联字符串的Java程序。</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-4-3-free-subscribe-node.htm" title="香港VPN | 4月3日21.7M/S|免费V2ray/SSR/Shadowrocket/Clash免费节点订阅分享">香港VPN | 4月3日21.7M/S|免费V2ray/SSR/Shadowrocket/Clash免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/news/article-67958.htm" title="动物疫苗注射方法及部位图解（动物疫苗注射方法及部位图解大全）">动物疫苗注射方法及部位图解（动物疫苗注射方法及部位图解大全）</a></li>
+                        <li class="py-2"><a href="/news/article-68598.htm" title="成都宠物领养平台怎么样啊（成都宠物领养平台怎么样啊知乎）">成都宠物领养平台怎么样啊（成都宠物领养平台怎么样啊知乎）</a></li>
+                        <li class="py-2"><a href="/news/article-92236.htm" title="给动物打的疫苗是什么意思（给动物打疫苗的官方部门）">给动物打的疫苗是什么意思（给动物打疫苗的官方部门）</a></li>
+                        <li class="py-2"><a href="/news/article-93702.htm" title="中国兽药厂家排名前100强有哪些 中国兽药厂家排名前100强有哪些品牌">中国兽药厂家排名前100强有哪些 中国兽药厂家排名前100强有哪些品牌</a></li>
+                        <li class="py-2"><a href="/news/article-79305.htm" title="宠物粮食品牌前十名有哪些牌子的好（宠物粮食品牌前十名有哪些牌子的好呢）">宠物粮食品牌前十名有哪些牌子的好（宠物粮食品牌前十名有哪些牌子的好呢）</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-3-23-free-high-speed-nodes.htm" title="香港VPN | 3月23日19.8M/S|免费Clash/V2ray/SSR/Shadowrocket免费节点订阅分享">香港VPN | 3月23日19.8M/S|免费Clash/V2ray/SSR/Shadowrocket免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/news/article-84228.htm" title="css实现文本垂直居中水平居中的几种方法">css实现文本垂直居中水平居中的几种方法</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-4-2-free-node-subscribe-links.htm" title="香港VPN | 4月2日19.2M/S|免费SSR/Shadowrocket/V2ray/Clash免费节点订阅分享">香港VPN | 4月2日19.2M/S|免费SSR/Shadowrocket/V2ray/Clash免费节点订阅分享</a></li>
+                    </ul>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">归纳</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="p-0 x-0" style="list-style: none;margin: 0;padding: 0;">
+                        <li class="py-2">
+                <h4><span class="badge" style="float: right;">69</span> <a href="/date/2025-04/" title="2025-04 归档">2025-04</a></h4>
+            </li>
+                        <li class="py-2">
+                <h4><span class="badge" style="float: right;">90</span> <a href="/date/2025-03/" title="2025-03 归档">2025-03</a></h4>
+            </li>
+                    </ul>
+    </div>
+</div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+        <section class="footer-2">
+        <footer class="container footer-2-container  d-flex align-items-center">
+            <div class="col-md-4 d-flex justify-content-center justify-content-md-start">
+                <p class="footer2-paragraph">© All rights reserved.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:facebook-fill"></iconify-icon>
+                </a>
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:twitter-fill"></iconify-icon>
+                </a>
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:instagram-fill"></iconify-icon>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <p class="footer2-paragraph d-flex justify-content-center justify-content-md-end">
+                                        <p>
+                                                <a href="/">首页</a> |
+                                                <a href="/free-nodes/">免费节点</a> |
+                                                <a href="/paid-subscribe/">推荐机场</a> |
+                                                <a href="/news/">新闻资讯</a> |
+                                                <a href="/client.htm">客户端</a> |
+                                                <a href="/about-us.htm">关于我们</a> |
+                        <a href="/disclaimer.htm">免责申明</a> |
+                        <a href="/privacy.htm">隐私申明</a> |
+                        <a href="/sitemap.xml">网站地图</a>
+                    </p>
+                    香港VPN 机场订阅节点官网 版权所有 Powered by WordPress
+                </p>
+            </div>
+        </footer>
+    </section>
+    <!-- Scripts  Starts -->
+    <script src="/assets/website/js/frontend/vlessnode/jquery-3.5.1.min.js"></script>
+    <script src="/assets/website/js/frontend/vlessnode/plugins.js"></script>
+    <script src="/assets/website/js/frontend/vlessnode/script.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.4.1/swiper-bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script src="https://www.freeclashnode.com/assets/js/frontend/invite-url.js"></script>
+    <script src="/assets/website/js/frontend/G.js"></script>
+</body>
+
+</html>
