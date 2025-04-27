@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html xml:lang="zh-CN" lang="zh-CN">
+
+<head>
+        <link rel="canonical" href="https://hongkongvpn.github.io/news/article-105040.htm" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>java基础面试题</title>
+        <meta name="description" content="java基础面试题2 1.说一说接口和抽象类  2.什么是序列化？为什么要进行序列化 在Java中，对象序列化表示将对象表示为字节序列。字节包括对象的数据和信息。可以将序列化的对象写入文件/数据库，然" />
+        <link rel="icon" href="/assets/website/img/vlessnode/favicon.ico" type="image/x-icon"/>
+
+    <meta name="author" content="香港VPN 机场订阅节点官网">
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://hongkongvpn.github.io/news/article-105040.htm" />
+    <meta property="og:site_name" content="香港VPN 机场订阅节点官网" />
+    <meta property="og:title" content="java基础面试题" />
+    <meta property="og:image" content="https://hongkongvpn.github.io/uploads/20240826/769caa3e67026e08508cd6b88870e560.webp" />
+        <meta property="og:release_date" content="2025-04-26T07:40:59" />
+    <meta property="og:updated_time" content="2025-04-26T07:40:59" />
+        <meta property="og:description" content="java基础面试题2 1.说一说接口和抽象类  2.什么是序列化？为什么要进行序列化 在Java中，对象序列化表示将对象表示为字节序列。字节包括对象的数据和信息。可以将序列化的对象写入文件/数据库，然" />
+        
+    <meta name="applicable-device" content="pc,mobile" />
+    <meta name="renderer" content="webkit" />
+    <meta name="force-rendering" content="webkit" />
+    <meta http-equiv="Cache-Control" content="no-transform" />
+    <meta name="robots" content="max-image-preview:large" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="java基础面试题">
+    <meta name="format-detection" content="telephone=no">
+
+    <link rel="dns-prefetch" href="https:/www.googletagmanager.com">
+    <link rel="dns-prefetch" href="https://www.googleadservices.com">
+    <link rel="dns-prefetch" href="https://www.google-analytics.com">
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+    <link rel="dns-prefetch" href="https://cm.g.doubleclick.net">
+    
+    <link rel="stylesheet" type="text/css" href="/assets/website/css/vlessnode/vendor.css">
+    <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/Swiper/9.4.1/swiper-bundle.min.css" />
+    <link href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/assets/website/css/vlessnode/style.css">
+    <link rel="stylesheet" href="/assets/website/css/G.css" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <!-- script ================================================== -->
+    <script src="/assets/website/js/frontend/vlessnode/modernizr.js"></script>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MG83FTMJCH"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-MG83FTMJCH');
+</script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3332997411212854"
+     crossorigin="anonymous"></script>
+</head>
+
+<body data-page="detail">
+        <!-- Navigation Section Starts -->
+    <section id="navigation-bar" class="navigation position-fixed">
+        <nav id="navbar-example2" class="navbar navbar-expand-lg ">
+            <div class="navigation container-fluid d-flex flex-wrap align-items-center my-2 pe-4 ps-5 ">
+                <div class="col-md-3 brand-logo">
+                    <a href="/" class="d-inline-flex link-body-emphasis">
+                                        <span>香港VPN</span>
+                                        </a>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar2" aria-controls="offcanvasNavbar2" aria-label="Toggle navigation">
+                    <ion-icon name="menu-outline"></ion-icon>
+                </button>
+                <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar2" aria-labelledby="offcanvasNavbar2Label">
+                    <div class="offcanvas-header">
+                        <h5 class="offcanvas-title" id="offcanvasNavbar2Label">Menu</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+                        <ul class="navbar-nav align-items-center flex-grow-1">
+                                                        <li class="nav-list mx-3">
+                                <a href="/" class="nav-link px-2">
+                                    <h5> 首页 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/free-nodes/" class="nav-link px-2">
+                                    <h5> 免费节点 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/paid-subscribe/" class="nav-link px-2">
+                                    <h5> 推荐机场 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/news/" class="nav-link px-2">
+                                    <h5> 新闻资讯 </h5>
+                                </a>
+                            </li>
+                                                        <li class="nav-list mx-3">
+                                <a href="/client.htm" class="nav-link px-2">
+                                    <h5> 客户端 </h5>
+                                </a>
+                            </li>
+                                                    </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </section>
+    <!-- Hero Section Starts -->
+    <section id="hero">
+        <div id="resources" class="hero container py-5 my-5">
+            <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+                <div class="col-10 col-sm-8 col-lg-6">
+                </div>
+                <div class="col-lg-6">
+                    <div class="breadcrumb ">
+                        <span class="item">
+                            <a href="/">
+                                <h5> <u>首页</u> </h5>
+                            </a>
+                        </span>
+                        &nbsp;<h5>/</h5> &nbsp; 
+                        <span class="item">
+                            <a href="/news/">
+                                <h5> <u>新闻资讯</u> </h5>
+                            </a>
+                        </span>
+                        &nbsp;<h5>/</h5> &nbsp; 
+
+                        <span class="item">
+                            <h5>正文</h5>
+                        </span>
+                    </div>
+                    <h1 class=" lh-1 mb-3">java基础面试题</h1>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Feature Section Starts -->
+    <section id="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9">
+                                    <input type="hidden" id="share-website-info" data-name="Clash Meta免费节点订阅站" data-url="https://clash-meta.github.io">
+                <div class="xcblog-blog-detail xcblog-blog-detail-defined">
+                      				  				  				<div id="content_views" class="markdown_views prism-atom-one-dark"> <h2>java基础面试题2</h2> <h3>1.说一说接口和抽象类</h3> <p><img decoding="async" src="http://img.555519.xyz/uploads3/20220901/60dfd6de60e91748668ecaf93ac49bdd.jpg" alt="java基础面试题"><br /><img decoding="async" src="http://img.555519.xyz/uploads3/20220901/bba363e906bb73dab35b86c15b5032af.jpg" alt="java基础面试题"><br /><img decoding="async" src="http://img.555519.xyz/uploads3/20220901/c545b906097ff06236252b9146ac7017.jpg" alt="java基础面试题"></p> <h3>2.什么是序列化？为什么要进行序列化</h3> <p>在Java中，对象序列化表示将对象表示为字节序列。字节包括对象的数据和信息。可以将序列化的对象写入文件/数据库，然后从文件/数据库中读取并反序列化。代表对象及其数据的字节可用于在内存中重新创建对象。</p> <p>当您需要通过网络发送对象或存储在文件中时，通常使用序列化。网络基础结构和硬盘只能理解位和字节，而不能理解Java对象。序列化将Java对象转换为字节，然后通过网络发送或保存。</p> <p>实体类都要实现序列化接口！！！</p> <h3>3.Java序列化中如果有些字段不想进行序列化怎么办？</h3> <p>对于不想进行序列化的变量，使用transient关键字修饰。<br /> transient关键字的作用是：阻止实例中那些用此关键字修饰的变量序列化，当对象被反序列化时，被transient修饰的变量值不会被持久化和恢复。<br /> transient只能修饰变量，不能修饰类和方法。</p> <h3>4.在Java中定义一个不做事且没有参数的构造方法的作用？</h3> <p>1.方便子类继承，子类的构造方法中，往往默认使用super()调用父类的无参构造方法，super()往往可以省略不写，但是父类中如果没有定义构造方法，子类中就要显示写出super()并传参数。</p> <p>2.大量框架中会使用反射创建对象，在使用反射创建对象时，往往用无参构造方法</p> <p>3.自定义构造方法时，程序员可能会忽略没有空参构造方法</p> <h3>5.String、StringBuffer和StringBuilder的区别</h3> <p><img decoding="async" src="http://img.555519.xyz/uploads3/20220901/db0345f2f7452110f20a7c3bfb893c85.jpg" alt="java基础面试题"><br /><img decoding="async" src="http://img.555519.xyz/uploads3/20220901/cd773d5b397d0a787924883d1112f692.jpg" alt="java基础面试题"><br /><img decoding="async" src="http://img.555519.xyz/uploads3/20220901/c2655f71281f0cc5c17e69d8b77cd1da.jpg" alt="java基础面试题"><br />详解</p> <h3>6.Java有哪些数据类型</h3> <p><img decoding="async" src="http://img.555519.xyz/uploads3/20220901/1c52cba4851e8884d7c1058c2581c9da.jpg" alt="java基础面试题"><br /><img decoding="async" src="http://img.555519.xyz/uploads3/20220901/98e5a498b7a0eb7d0e91f74e1ce25f95.jpg" alt="java基础面试题"></p> <h3>7.java访问修饰符 public,private,protected,以及不写（默认）时的区别</h3> <p><img decoding="async" src="http://img.555519.xyz/uploads3/20220901/da1d13fd655f47f9c9b7e587369932b4.jpg" alt="java基础面试题"><br /><img decoding="async" src="http://img.555519.xyz/uploads3/20220901/5d8df91418ffc055f881e06b1709c438.jpg" alt="java基础面试题"></p> </div> 			                </div>
+                <div class="clearfix"></div>
+                <div class="col-md-12 mt-5">
+                                        <p>上一个：<a href="/news/article-104100.htm">宠物寄养协议书（宠物寄养协议书可以产生法律效应吗）</a></p>
+                                        <p>下一个：<a href="/news/article-105042.htm">动物防疫站归哪个部门管理（动物防疫站是什么单位）</a></p>
+                                    </div>
+                                </div>
+                <div class="col-md-3">
+                    <div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">热门文章</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="p-0 x-0" style="list-style: none;margin: 0;padding: 0;">
+                        <li class="py-2"><a href="/news/article-70566.htm" title="springboot全局时间格式化">springboot全局时间格式化</a></li>
+                        <li class="py-2"><a href="/news/article-103422.htm" title="vue实现无限消息无缝滚动_vue.js">vue实现无限消息无缝滚动_vue.js</a></li>
+                        <li class="py-2"><a href="/news/article-86383.htm" title="广州宠物领养平台电话是多少号码啊（广州领养宠物救助站）">广州宠物领养平台电话是多少号码啊（广州领养宠物救助站）</a></li>
+                        <li class="py-2"><a href="/news/article-83507.htm" title="免费领养狗狗网站正规有哪些（免费领养狗狗免费领养宠物的网站）">免费领养狗狗网站正规有哪些（免费领养狗狗免费领养宠物的网站）</a></li>
+                        <li class="py-2"><a href="/news/article-91412.htm" title="适合新手男人开的店90后（适合男生新手行业）">适合新手男人开的店90后（适合男生新手行业）</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-3-7-free-subscribe-node.htm" title="香港VPN | 3月7日18.4M/S|免费Clash/V2ray/Shadowrocket/SSR免费节点订阅分享">香港VPN | 3月7日18.4M/S|免费Clash/V2ray/Shadowrocket/SSR免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/free-nodes/2025-4-1-free-v2ray.htm" title="香港VPN | 4月1日18.8M/S|免费Shadowrocket/SSR/V2ray/Clash免费节点订阅分享">香港VPN | 4月1日18.8M/S|免费Shadowrocket/SSR/V2ray/Clash免费节点订阅分享</a></li>
+                        <li class="py-2"><a href="/news/article-81392.htm" title="长沙猫咪领养中心在哪里（长沙猫咪领养中心在哪里有）">长沙猫咪领养中心在哪里（长沙猫咪领养中心在哪里有）</a></li>
+                        <li class="py-2"><a href="/news/article-81393.htm" title="猫粮品牌排行榜单价表（猫粮排行榜10强）">猫粮品牌排行榜单价表（猫粮排行榜10强）</a></li>
+                        <li class="py-2"><a href="/news/article-84942.htm" title="【天津免费领养狗狗】（天津免费领养狗狗正规网）">【天津免费领养狗狗】（天津免费领养狗狗正规网）</a></li>
+                    </ul>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">归纳</h3>
+    </div>
+    <div class="panel-body">
+        <ul class="p-0 x-0" style="list-style: none;margin: 0;padding: 0;">
+                        <li class="py-2">
+                <h4><span class="badge" style="float: right;">81</span> <a href="/date/2025-04/" title="2025-04 归档">2025-04</a></h4>
+            </li>
+                        <li class="py-2">
+                <h4><span class="badge" style="float: right;">90</span> <a href="/date/2025-03/" title="2025-03 归档">2025-03</a></h4>
+            </li>
+                    </ul>
+    </div>
+</div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+        <section class="footer-2">
+        <footer class="container footer-2-container  d-flex align-items-center">
+            <div class="col-md-4 d-flex justify-content-center justify-content-md-start">
+                <p class="footer2-paragraph">© All rights reserved.</p>
+            </div>
+            <div class="col-md-4 text-center">
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:facebook-fill"></iconify-icon>
+                </a>
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:twitter-fill"></iconify-icon>
+                </a>
+                <a href="#" class="text-decoration-none">
+                    <iconify-icon class="footer-2-icon px-2" icon="ri:instagram-fill"></iconify-icon>
+                </a>
+            </div>
+            <div class="col-md-4">
+                <p class="footer2-paragraph d-flex justify-content-center justify-content-md-end">
+                                        <p>
+                                                <a href="/">首页</a> |
+                                                <a href="/free-nodes/">免费节点</a> |
+                                                <a href="/paid-subscribe/">推荐机场</a> |
+                                                <a href="/news/">新闻资讯</a> |
+                                                <a href="/client.htm">客户端</a> |
+                                                <a href="/about-us.htm">关于我们</a> |
+                        <a href="/disclaimer.htm">免责申明</a> |
+                        <a href="/privacy.htm">隐私申明</a> |
+                        <a href="/sitemap.xml">网站地图</a>
+                    </p>
+                    香港VPN 机场订阅节点官网 版权所有 Powered by WordPress
+                </p>
+            </div>
+        </footer>
+    </section>
+    <!-- Scripts  Starts -->
+    <script src="/assets/website/js/frontend/vlessnode/jquery-3.5.1.min.js"></script>
+    <script src="/assets/website/js/frontend/vlessnode/plugins.js"></script>
+    <script src="/assets/website/js/frontend/vlessnode/script.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/Swiper/9.4.1/swiper-bundle.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/5.3.0-alpha3/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>
+    <script src="https://www.freeclashnode.com/assets/js/frontend/invite-url.js"></script>
+    <script src="/assets/website/js/frontend/G.js"></script>
+</body>
+
+</html>
