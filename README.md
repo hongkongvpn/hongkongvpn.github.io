@@ -1,4 +1,4 @@
-# 香港VPN | 5月11日22M/S|免费Shadowrocket/SSR/Clash/V2ray免费节点订阅分享  更新时间 2025-05-11 07:20:28
+# 香港VPN | 5月16日21.6M/S|免费Shadowrocket/V2ray/Clash/SSR免费节点订阅分享  更新时间 2025-05-16 09:15:05
 所有免费clash节点都爬取自网络，请勿用于非法用途 。节点地址：<a href="https://hongkongvpn.github.io" target="_blank">点击跳转</a>
 
 ## clash使用教程：
@@ -9,23 +9,23 @@
 
 ### Clash订阅链接
 
-- https://hongkongvpn.github.io/uploads/2025/05/0-20250511.yaml
-- https://hongkongvpn.github.io/uploads/2025/05/1-20250511.yaml
-- https://hongkongvpn.github.io/uploads/2025/05/2-20250511.yaml
-- https://hongkongvpn.github.io/uploads/2025/05/3-20250511.yaml
-- https://hongkongvpn.github.io/uploads/2025/05/4-20250511.yaml
+- https://hongkongvpn.github.io/uploads/2025/05/0-20250516.yaml
+- https://hongkongvpn.github.io/uploads/2025/05/1-20250516.yaml
+- https://hongkongvpn.github.io/uploads/2025/05/2-20250516.yaml
+- https://hongkongvpn.github.io/uploads/2025/05/3-20250516.yaml
+- https://hongkongvpn.github.io/uploads/2025/05/4-20250516.yaml
 
 ### V2ray订阅链接
 
-- https://hongkongvpn.github.io/uploads/2025/05/0-20250511.txt
-- https://hongkongvpn.github.io/uploads/2025/05/1-20250511.txt
-- https://hongkongvpn.github.io/uploads/2025/05/2-20250511.txt
-- https://hongkongvpn.github.io/uploads/2025/05/3-20250511.txt
-- https://hongkongvpn.github.io/uploads/2025/05/4-20250511.txt
+- https://hongkongvpn.github.io/uploads/2025/05/0-20250516.txt
+- https://hongkongvpn.github.io/uploads/2025/05/1-20250516.txt
+- https://hongkongvpn.github.io/uploads/2025/05/2-20250516.txt
+- https://hongkongvpn.github.io/uploads/2025/05/3-20250516.txt
+- https://hongkongvpn.github.io/uploads/2025/05/4-20250516.txt
 
 ### Sing-box订阅链接
 
-- https://hongkongvpn.github.io/uploads/2025/05/20250511.json
+- https://hongkongvpn.github.io/uploads/2025/05/20250516.json
 
 ## 更多clash节点订阅 ：
 
